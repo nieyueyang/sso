@@ -1,16 +1,15 @@
-package com.deyun.mybatis.dao.impl;
+package com.deyun.mybatis.mapper.impl;
 
 import com.deyun.mybatis.annotation.Column;
 import com.deyun.mybatis.annotation.Id;
 import com.deyun.mybatis.annotation.Table;
 import com.deyun.mybatis.annotation.Transient;
-import com.deyun.mybatis.dao.BaseDaoService;
+import com.deyun.mybatis.mapper.BaseDaoService;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -58,7 +57,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
         param.put("tableName", tableName);
         param.put("COLUMNS", listColumn);
         param.put("WHERE", map);
-        List<T> list = sqlSessionTemplate.selectList("com.BaseMapper.select", param);
+        List<T> list = sqlSessionTemplate.selectList("com.baseDao.select", param);
         return list;
     }
 
@@ -113,7 +112,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
         param.put("tableName", tableName);
         param.put("COLUMNS", listColumn);
         param.put("VALUES", listValues);
-        return sqlSessionTemplate.insert("com.bsebDao.insert", param);
+        return sqlSessionTemplate.insert("com.deyun.mybatis.dao.BaseDaoService.insert", param);
 //        try{
 //            return sqlSessionTemplate.insert("com.BaseMapper.insert", param);
 //        }catch(Exception e){
@@ -176,7 +175,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
             param.put("COLUMNS", listColumn);
             param.put("VALUES", listValues);
             try{
-                int i = sqlSessionTemplate.insert("com.bsebDao.insert", param);
+                int i = sqlSessionTemplate.insert("com.baseDao.insert", param);
                 resutl = i + 0;
             }catch(Exception e){
                 logger.info(e.toString());
@@ -217,7 +216,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
         param.put("tableName", tableName);
         param.put("COLUMNS", mapColumn);
         param.put("Where", map);
-        return sqlSessionTemplate.update("com.bsebDao.update", param);
+        return sqlSessionTemplate.update("com.baseDao.update", param);
     }
 
     /**
@@ -231,7 +230,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
         Map<String,Object> param = new HashMap();
         param.put("tableName", tableName);
         param.put("Where", map);
-        return sqlSessionTemplate.delete("com.bsebDao.delete", param);
+        return sqlSessionTemplate.delete("com.baseDao.delete", param);
     }
 
     /**
@@ -245,7 +244,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
         Map<String,Object> param = new HashMap();
         param.put("tableName", tableName);
         param.put("list", list);
-        return sqlSessionTemplate.delete("com.bsebDao.deleteBatch", param);
+        return sqlSessionTemplate.delete("com.baseDao.deleteBatch", param);
     }
 
     /**

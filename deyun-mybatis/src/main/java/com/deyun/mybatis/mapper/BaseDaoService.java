@@ -1,6 +1,5 @@
-package com.deyun.mybatis.dao;
+package com.deyun.mybatis.mapper;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import java.util.List;
 import java.util.Map;
 
