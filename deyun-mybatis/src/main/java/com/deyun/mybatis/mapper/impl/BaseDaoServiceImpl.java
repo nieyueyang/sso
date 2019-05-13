@@ -112,7 +112,7 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
         param.put("tableName", tableName);
         param.put("COLUMNS", listColumn);
         param.put("VALUES", listValues);
-        return sqlSessionTemplate.insert("com.deyun.mybatis.dao.BaseDaoService.insert", param);
+        return sqlSessionTemplate.insert("com.baseDao.insert", param);
 //        try{
 //            return sqlSessionTemplate.insert("com.BaseMapper.insert", param);
 //        }catch(Exception e){
