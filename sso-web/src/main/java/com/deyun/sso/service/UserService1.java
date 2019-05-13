@@ -1,6 +1,6 @@
 package com.deyun.sso.service;
 
-import com.deyun.mybatis.dao.BaseDaoService;
+import com.deyun.mybatis.mapper.BaseDaoService;
 import com.deyun.sso.pojo.BaseDept;
 import com.deyun.sso.pojo.User;
 import com.github.pagehelper.PageHelper;

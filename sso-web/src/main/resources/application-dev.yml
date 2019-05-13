@@ -18,8 +18,6 @@ spring:
         url: jdbc:mysql://127.0.0.1:3306/sso?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
         username: root
         password: root
-
-
         #连接池初始化大小
         initialSize: 10
         #连接池最小
@@ -56,13 +54,13 @@ spring:
         filtersUrlPatterns: /*
         exclusions: '*.js,*.gif,*.jpg,*.jpeg,*.png,*.css,*.ico,*.jsp,/druid/*'
         sessionStatMaxCount: 2000
-        sessionStatEnable: true
+        sessionStatEnable: false
         principalSessionName: session_user_key
         profileEnable: true
 
 mybatis:
     mapper-locations: classpath*:/mapper/**/*.xml
-    type-aliases-package: com.deyun.**
+    type-aliases-package:
     configuration:
       ##字段开启驼峰映射
       map-underscore-to-camel-case: true

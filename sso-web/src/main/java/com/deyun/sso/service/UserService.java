@@ -1,6 +1,7 @@
 package com.deyun.sso.service;
 
-import com.deyun.user.AuthService;
+import com.deyun.user.AppUserService;
+import com.deyun.user.dto.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +15,19 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private AuthService authService;
+    private AppUserService appUserService;
 
     public String login(String account,String password){
-        return authService.login(account, password);
+        return appUserService.login(account, password);
     }
 
-//    public AppUser selectAppUserByAccount(String account){
-//        return appUserService.selectAppUserByAccount(account);
-//    }
+    public int register(AppUser appUser) throws Exception {
+        return appUserService.register(appUser);
+    }
 
-//    public AppUser selectByAccount(String account){
-//        return appUserService.selectByAccount(account);
-//    }
-
+    public AppUser selectByAccount(String account){
+        return appUserService.selectByAccount(account);
+    }
 
 
 
