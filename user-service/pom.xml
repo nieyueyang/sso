@@ -33,7 +33,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>com.deyun.mybatis</groupId>
             <artifactId>deyun-mybatis</artifactId>

@@ -3,8 +3,8 @@ package com.deyun.user.filter;
 import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.util.HttpUtil;
+import com.deyun.user.AppUserService;
 import com.deyun.user.dto.AuthUser;
-import com.deyun.user.service.AppUserService;
 import com.deyun.user.util.TokenUtil;
 import com.github.pagehelper.util.StringUtil;
 import io.jsonwebtoken.Claims;
@@ -51,6 +51,8 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         super(authenticationManager, authenticationEntryPoint);
     }
 
+    //TODO  增加 参数处理，SQL注入处理
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws IOException, ServletException {
         String token = request.getHeader(HEADER_STRING);
@@ -74,7 +76,9 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
                     //token未过期
                     authUser.setAccountNonExpired(true);
                 }else if(currentTime > expirationTime && currentTime < refreshTime){
-                    //TODO TOKEN过期，单还没过刷新时间，重新签发TOKEN
+                    //token未过期
+                    authUser.setAccountNonExpired(true);
+                    //TODO TOKEN过期，单还没过刷新时间，重新签发TOKEN，暂时先设置为TOKEN过期
                 }else{
                     //TODO TOKEN超过刷新时间，需要重新申请TOKEN
                     //authUser.setAccountNonExpired(false);
@@ -102,6 +106,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
                 // TOKEN 解析失败
                 Result result = new Result(ErrorUserMsgEnum.TOKEN_INVALID.getCode(),ErrorUserMsgEnum.TOKEN_INVALID.getMsg());
                 HttpUtil.responseWriteJson(response, result);
+                return;
 
             }
         }

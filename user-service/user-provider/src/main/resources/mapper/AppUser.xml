@@ -26,11 +26,16 @@
   </resultMap>
     
   <sql id="selectAllItems">
-  	id, account,name,password,salt,parent_id, sex, phone,email,company_id,source,
+  	id, account,name,salt,parent_id, sex, phone,email,company_id,source,
   	create_account,create_name,create_date,modify_account,modify_date
   </sql>
 
-	<select id="selectByAccount" resultMap="appUserExtendResult">
+	<select id="selectAppUserByAccount" resultMap="appUserExtendResult">
+		select id, account,name,password
+		from app_user where account = #{account}
+	</select>
+
+	<select id="selectByAccount" resultMap="appUserResult">
 		select <include refid="selectAllItems"/>
 		from app_user where account = #{account}
 	</select>

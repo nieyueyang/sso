@@ -16,11 +16,12 @@ public class AppUserDao {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    public AppUser login(String account){
-        return sqlSessionTemplate.selectOne("com.appuser.selectByAccount", account);
-    }
 
     public AppUser selectAppUserByAccount(String account){
+        return sqlSessionTemplate.selectOne("com.appuser.selectAppUserByAccount", account);
+    }
+
+    public AppUser selectByAccount(String account){
         return sqlSessionTemplate.selectOne("com.appuser.selectByAccount", account);
     }
 

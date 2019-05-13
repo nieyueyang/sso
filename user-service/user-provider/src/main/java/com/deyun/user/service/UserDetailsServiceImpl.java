@@ -1,15 +1,14 @@
-package com.deyun.user.service.impl;
+package com.deyun.user.service;
 
+import com.deyun.user.AppUserService;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
-import com.deyun.user.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

@@ -1,5 +1,8 @@
 package com.deyun.user.dto;
 
+import com.deyun.mybatis.annotation.Id;
+import com.deyun.mybatis.annotation.Table;
+
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +11,9 @@ import java.sql.Timestamp;
  * @Version 1.0
  * @Description:
  */
+@Table("app_user")
 public class AppUser {
+    @Id
     private String id;
     private String account;
     private String name;
