@@ -1,7 +1,8 @@
-package com.deyun.sso.ctrl;
+package com.deyun.sso.exception;
 
 import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorMsgEnum;
+import com.deyun.common.exception.GlobalException;
 import com.deyun.common.exception.UserException;
 import com.deyun.common.util.HttpUtil;
 import org.slf4j.Logger;
@@ -10,12 +11,14 @@ import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorCon
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class GlobalExceptionHandler extends AbstractErrorController {
+
     private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     public GlobalExceptionHandler(ErrorAttributes errorAttributes) {
@@ -51,6 +54,9 @@ public class GlobalExceptionHandler extends AbstractErrorController {
             result.setCode(((UserException) ex).getExceptionCode());
             result.setMsg(((UserException) ex).getExceptionMsg());
 
+        }else if (ex instanceof GlobalException){
+            result.setCode(((GlobalException) ex).getGlobalExceptionCode());
+            result.setMsg(((GlobalException) ex).getGlobalExceptionMsg());
         }else{
             result.setCode(ErrorMsgEnum.UnknowErrorMsg.getCode());
             result.setMsg(ErrorMsgEnum.UnknowErrorMsg.getMsg());

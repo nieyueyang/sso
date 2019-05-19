@@ -1,7 +1,6 @@
 package com.deyun.common.util;
 
 import org.slf4j.LoggerFactory;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +10,8 @@ import java.util.regex.Pattern;
  * @Version 1.0
  * @Description: 特殊字符检测工具（防止传入非法字符和sql注入攻击）
  */
-public class IllegalStrFilterUtil {
-    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(IllegalStrFilterUtil.class);
+public class IllegalStrUtil {
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(IllegalStrUtil.class);
 
     private static final String REGX = "!|！|@|◎|#|＃|(\\$)|￥|%|％|(\\^)|……|(\\&)|※|(\\*)|×|(\\()|（|(\\))|）|_|——|(\\+)|＋|(\\|)|§ ";
 
