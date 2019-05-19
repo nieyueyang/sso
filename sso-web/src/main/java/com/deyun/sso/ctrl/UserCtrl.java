@@ -1,12 +1,14 @@
 package com.deyun.sso.ctrl;
 
-import com.deyun.mybatis.mapper.BaseDaoService;
+import com.deyun.common.annotation.ParamNotNull;
 import com.deyun.sso.service.UserService;
 import com.deyun.user.dto.AppUser;
+import com.deyun.user.dto.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;;
 
 /**
  * @Author: nieyy
@@ -26,6 +28,7 @@ public class UserCtrl {
         return userService.login(account, password);
     }
 
+    @ParamNotNull(ParaName = {"account","name"})
     @PostMapping("/register")
     public void register(@RequestBody AppUser appUser) throws Exception {
         userService.register(appUser);
@@ -35,8 +38,12 @@ public class UserCtrl {
      * 单条查询
      * @return
      */
+
+    @ParamNotNull(ParaName = {"account"})
     @RequestMapping("/selectByAccount")
-    public AppUser selectByAccount(HttpServletRequest request, @RequestParam("account") String account ){
+    public AppUser selectByAccount(HttpServletRequest request, @RequestParam("account") String account){
+        Authentication aa = SecurityContextHolder.getContext().getAuthentication();
+        AuthUser authUser = (AuthUser) aa.getPrincipal();
         return userService.selectByAccount(account);
     }
 

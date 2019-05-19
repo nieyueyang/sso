@@ -1,14 +1,21 @@
 package com.deyun.user.service;
 
+import com.deyun.common.dto.Result;
+import com.deyun.common.enums.ErrorUserMsgEnum;
+import com.deyun.common.exception.UserException;
+import com.deyun.common.util.HttpUtil;
 import com.deyun.user.AppUserService;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -55,10 +62,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         AppUser appUser = appUserService.selectAppUserByAccount(username);
         // --------------------判断用户是否存在
         if(appUser == null) {
-            throw new UsernameNotFoundException("用户名不存在");
+            throw new UserException(ErrorUserMsgEnum.USERNAME_NOT_FOUND);
         }
 
-//        // 添加权限
+//        //TODO 添加权限
 //        List<SysUserRole> userRoles = userRoleService.listByUserId(user.getId());
 //        for (SysUserRole userRole : userRoles) {
 //            SysRole role = roleService.selectById(userRole.getRoleId());
@@ -66,7 +73,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        }
 
         // 返回UserDetails实现类
-        return new AuthUser(appUser);
+        AuthUser authUser = new AuthUser();
+        BeanUtils.copyProperties(appUser,authUser);
+        return authUser;
 
     }
 

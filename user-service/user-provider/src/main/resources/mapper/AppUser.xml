@@ -22,7 +22,7 @@
 	</resultMap>
 
    <resultMap id="appUserExtendResult" type="com.deyun.user.dto.AppUser" extends="appUserResult">
-			<result column="password" property="password"/>
+	   <result column="password" property="password"/>
   </resultMap>
     
   <sql id="selectAllItems">
@@ -31,12 +31,14 @@
   </sql>
 
 	<select id="selectAppUserByAccount" resultMap="appUserExtendResult">
-		select id, account,name,password
+		select id, account,name,password,salt,parent_id, sex, phone,email,company_id,source,
+  		create_account,create_name,create_date,modify_account,modify_date
 		from app_user where account = #{account}
 	</select>
 
 	<select id="selectByAccount" resultMap="appUserResult">
-		select <include refid="selectAllItems"/>
+		select id, account,name,salt,parent_id, sex, phone,email,company_id,source,
+  		create_account,create_name,create_date,modify_account,modify_date
 		from app_user where account = #{account}
 	</select>
 

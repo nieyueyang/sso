@@ -28,8 +28,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecuiityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-    @Autowired
     private RestAuthenticationAccessDeniedHandler restAuthenticationAccessDeniedHandler;
 
     @Override

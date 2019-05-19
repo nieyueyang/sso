@@ -10,6 +10,9 @@ public enum ErrorMsgEnum {
     CONNECTION_TIMEOUT(10001,"连接超时,可能是由于服务器繁忙导致！"),
     NOT_FOUND(10002,"无效的请求地址"),
     INTERNAL_SERVER_ERROR(10003,"内部服务器错误"),
+    PARAM_NOT_NULL(10004,"参数不能为空"),
+    PARAM_NOT_FOUND(10005,"参数个数不对"),
+    PARAM_ERROR(10006,"输入参数含有非法字符"),
     UnknowErrorMsg(19999,"未知错误信息");
 
 

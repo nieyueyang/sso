@@ -4,12 +4,11 @@ import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.util.HttpUtil;
 import com.deyun.user.AppUserService;
+import com.deyun.user.constants.Constants;
 import com.deyun.user.dto.AuthUser;
 import com.deyun.user.util.TokenUtil;
 import com.github.pagehelper.util.StringUtil;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Map;
 
 /**
  * @Author: nieyy
@@ -33,15 +33,7 @@ import java.time.Instant;
 public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired
-    RedisTemplate redisTemplate;
-    @Autowired
     AppUserService appUserService;
-
-    /**
-     * 存放Token的Header Key
-     */
-    private static final String HEADER_STRING = "Authorization";
-    private static final String ACCOUNT = "account";
 
     public TokenAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -51,37 +43,34 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         super(authenticationManager, authenticationEntryPoint);
     }
 
-    //TODO  增加 参数处理，SQL注入处理
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws IOException, ServletException {
-        String token = request.getHeader(HEADER_STRING);
+        String token = request.getHeader(Constants.HEADER_STRING);
         String account = "";
         if (StringUtil.isNotEmpty(token)) {
             try{
-//                if (StringUtil.isNotEmpty(account)){
-//                    appUser = appUserService.selectAppUserByAccount(account);
-//                }
-                //UserDetails userDetails = TokenUtil.getUserDetailsFromToken(token,appUser.getSalt());
-                Claims claims = TokenUtil.getUserDetailsFromToken(token);
-                account = (String) claims.get(ACCOUNT);
-                //打印日志
-                priintLog(request,account,token);
-                long expirationTime = (long) claims.get("expirationTime");
-                long refreshTime = (long) claims.get("refreshTime");
+                //TODO 考虑动态加盐，盐存放的问题
+                Map claims = TokenUtil.getUserDetailsFromToken(token);
+                account = (String) claims.get(Constants.ACCOUNT);
+                long expirationTime = (long) claims.get(Constants.TOKEN_EXPIRATION);
+                long refreshTime = (long) claims.get(Constants.TOKEN_REFRESH);
                 long currentTime = Instant.now().toEpochMilli();
                 AuthUser authUser = new AuthUser();
-                authUser.setAccount((String) claims.get("account"));
+                authUser.setId((String) claims.get(Constants.USER_ID));
+                authUser.setAccount(account);
+                authUser.setName((String) claims.get(Constants.USER_NAME));
                 if (currentTime < expirationTime ){
                     //token未过期
                     authUser.setAccountNonExpired(true);
                 }else if(currentTime > expirationTime && currentTime < refreshTime){
-                    //token未过期
-                    authUser.setAccountNonExpired(true);
-                    //TODO TOKEN过期，单还没过刷新时间，重新签发TOKEN，暂时先设置为TOKEN过期
-                }else{
-                    //TODO TOKEN超过刷新时间，需要重新申请TOKEN
-                    //authUser.setAccountNonExpired(false);
+                    //TODO TOKEN过期，但未过刷新时间，返回TOKEN过期，由前台刷新获取TOKEN
+                    priintLog(request,account,token);
+                    Result result = new Result(ErrorUserMsgEnum.TOKEN_TIMEOUT.getCode(),ErrorUserMsgEnum.TOKEN_TIMEOUT.getMsg());
+                    HttpUtil.responseWriteJson(response, result);
+                    return;
+                }else{//TOKEN超过刷新时间，需要重新申请TOKEN
+                    //打印日志
+                    priintLog(request,account,token);
                     Result result = new Result(ErrorUserMsgEnum.LOGIN_TIMEOUT.getCode(),ErrorUserMsgEnum.LOGIN_TIMEOUT.getMsg());
                     HttpUtil.responseWriteJson(response, result);
                     return;

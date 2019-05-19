@@ -19,24 +19,12 @@ public class AuthUser implements UserDetails,Serializable {
     private String id;
     private String account;                 //用户名
     private String password;                //密码
-   // private String salt;                   //盐
+    private String name;                    //名称
     //private List<Role> authorities;       //权限集合
     boolean accountNonExpired =true;        //账户是否未过期,true 未过期  false 过期
     boolean accountNonLocked = true;         //账户是否未锁定
     boolean credentialsNonExpired = true;    //密码是否未过期
     boolean enabled = true;                  //账户是否可用
-    boolean tokenExpired = true;             //token是否为过期, true 未过期  false 过期
-
-    public AuthUser(AppUser appUserser) {
-        //super();
-        this.id = appUserser.getId();
-        this.account = appUserser.getAccount();
-        this.password = appUserser.getPassword();
-        //this.salt = appUserser.getSalt();
-        //this.authorityKind = appUserser.getAuthorityKind();
-    }
-
-    public AuthUser(){ }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,6 +83,14 @@ public class AuthUser implements UserDetails,Serializable {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setAccountNonExpired(boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
@@ -111,11 +107,4 @@ public class AuthUser implements UserDetails,Serializable {
         this.enabled = enabled;
     }
 
-    public boolean isTokenExpired() {
-        return tokenExpired;
-    }
-
-    public void setTokenExpired(boolean tokenExpired) {
-        this.tokenExpired = tokenExpired;
-    }
 }

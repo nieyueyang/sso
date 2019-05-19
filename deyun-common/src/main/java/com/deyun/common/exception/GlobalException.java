@@ -1,7 +1,6 @@
 package com.deyun.common.exception;
 
-import com.deyun.common.enums.ErrorUserMsgEnum;
-
+import com.deyun.common.enums.ErrorMsgEnum;
 import java.text.MessageFormat;
 
 /**
@@ -19,10 +18,16 @@ public class GlobalException extends Exception {
         super(message);
     }
 
-    public GlobalException(ErrorUserMsgEnum errorUserMsgEnum) {
-        super(errorUserMsgEnum.getCode()+ " : " + errorUserMsgEnum.getMsg());
-        this.globalExceptionCode = errorUserMsgEnum.getCode();
-        this.globalExceptionMsg = errorUserMsgEnum.getMsg();
+    public GlobalException(int code,String message) {
+        super(code + " : " + message);
+        this.globalExceptionCode = code;
+        this.globalExceptionMsg = message;
+    }
+
+    public GlobalException(ErrorMsgEnum errorMsgEnum) {
+        super(errorMsgEnum.getCode()+ " : " + errorMsgEnum.getMsg());
+        this.globalExceptionCode = errorMsgEnum.getCode();
+        this.globalExceptionMsg = errorMsgEnum.getMsg();
     }
 
     private int globalExceptionCode;

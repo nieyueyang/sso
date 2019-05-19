@@ -1,4 +1,4 @@
-package com.deyun.sso.exception;
+package com.deyun.sso.global;
 
 import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorMsgEnum;
@@ -11,8 +11,6 @@ import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorCon
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +22,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
     public GlobalExceptionHandler(ErrorAttributes errorAttributes) {
         super(errorAttributes);
     }
+
 
     @PostMapping("/error")
     public void error(HttpServletRequest request, HttpServletResponse response) {
@@ -39,13 +38,15 @@ public class GlobalExceptionHandler extends AbstractErrorController {
             }else if(httpCode == 500){
                 result.setCode(ErrorMsgEnum.INTERNAL_SERVER_ERROR.getCode());
                 result.setMsg(ErrorMsgEnum.INTERNAL_SERVER_ERROR.getMsg());
+            }else if (httpCode == 400){
+                result.setCode(ErrorMsgEnum.PARAM_NOT_FOUND.getCode());
+                result.setMsg(ErrorMsgEnum.PARAM_NOT_FOUND.getMsg());
             }else{
                 result.setCode(ErrorMsgEnum.UnknowErrorMsg.getCode());
                 result.setMsg(ErrorMsgEnum.UnknowErrorMsg.getMsg());
             }
         }
         HttpUtil.responseWriteJson(response, result);
-
     }
 
     private Result defaultErrorHandler(Exception ex){
@@ -67,8 +68,8 @@ public class GlobalExceptionHandler extends AbstractErrorController {
     private Throwable getCause(HttpServletRequest request) {
         Throwable error = (Throwable) request.getAttribute("javax.servlet.error.exception");
         if (error != null) {
-            while (error instanceof ServletException && error.getCause() != null) {
-                error = ((ServletException) error).getCause();
+            while (error instanceof Exception && error.getCause() != null) {
+                error = error.getCause();
             }
         }
         return error;

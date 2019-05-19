@@ -1,27 +1,35 @@
 package com.deyun.common.dto;
 
+import java.io.Serializable;
+
 /**
  * @Author: nieyy
  * @Date: 2019/4/28 23:14
  * @Version 1.0
  * @Description: 返回结果类
  */
-public class Result<T> {
+public class Result<T>  implements Serializable {
     private int code;
     private String msg;
-    private T t;
+    private T data;
 
     public Result(){ }
 
     public Result(int code, String msg, T t){
         this.code = code;
         this.msg = msg;
-        this.t = t;
+        this.data = t;
     }
 
     public Result(int code, String msg){
         this.code = code;
         this.msg = msg;
+    }
+
+    public Result(T data){
+        this.code = 200;
+        this.msg = "访问成功";
+        this.data= data;
     }
 
     public int getCode() {
@@ -40,11 +48,11 @@ public class Result<T> {
         this.msg = msg;
     }
 
-    public T getT() {
-        return t;
+    public T getData() {
+        return data;
     }
 
-    public void setT(T t) {
-        this.t = t;
+    public void setData(T data) {
+        this.data = data;
     }
 }

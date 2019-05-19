@@ -31,6 +31,7 @@
         <mysql.version>8.0.15</mysql.version>
         <mybatis-spring-boot.version>1.3.1</mybatis-spring-boot.version>
         <pagehelper.version>1.2.10</pagehelper.version>
+        <swagger2.version>2.9.2</swagger2.version>
         <!-- 打包时跳过测试用例 -->
         <maven.test.skip>true</maven.test.skip>
 
@@ -223,6 +224,7 @@
                 <artifactId>cglib</artifactId>
                 <version>3.2.9</version>
             </dependency>
+
 
         </dependencies>
 

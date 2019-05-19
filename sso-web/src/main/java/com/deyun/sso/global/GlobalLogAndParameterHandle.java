@@ -1,48 +1,141 @@
-package com.deyun.sso.aop;
+package com.deyun.sso.global;
 
 import com.alibaba.fastjson.JSONObject;
+import com.deyun.common.annotation.ParamNotNull;
+import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorMsgEnum;
 import com.deyun.common.exception.GlobalException;
 import com.deyun.common.util.HttpUtil;
 import com.deyun.common.util.IllegalStrUtil;
-import org.aspectj.lang.ProceedingJoinPoint;
+import com.deyun.common.util.StringUtil;
+import com.deyun.user.dto.AuthUser;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Aspect
 public class GlobalLogAndParameterHandle {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalLogAndParameterHandle.class);
-    //TODO 还没有获取登录用户
-    private String account;
 
     @Pointcut("execution(* com.deyun.*.ctrl..*.*(..))")
     public void pointCut(){}
 
-    @Around("pointCut()")
-    public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
-        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-        HttpServletRequest request = sra.getRequest();
-        HttpServletResponse response = sra.getResponse();
+    @Before("pointCut()")
+    public void handleControllerMethod(JoinPoint pjp) throws Throwable {
+        //Stopwatch stopwatch = Stopwatch.createStarted();
+        Result result = new Result();
+        String account =  "";
+        Map map = analyticJoinPoint(pjp);
+        HttpServletRequest request = (HttpServletRequest) map.get("request");
+        if (!"/login".equals(request.getServletPath())){
+            //获取登录用户账号
+            account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
+        }
         String url = request.getRequestURL().toString();
-        String method = request.getMethod();
+
+        String methodType = request.getMethod();
         String targetIp = HttpUtil.getRemoteHost(request);
-        //TODO 还没有获取登录用户
-        logger.info("account:{}, targetIp:{}, url:{}, method:{}",account,targetIp,url,method);
-        JSONObject jsonObject = checkRequestParam(pjp,response);
-        logger.info("输入参数：{}",jsonObject.toJSONString());
+        logger.info("account:{}, targetIp:{}, url:{}, method:{}",account,targetIp,url,methodType);
+        JSONObject jsonObject = (JSONObject) map.get("param");
+        String[] annotations = (String[]) map.get("annotations");
+        checkRequestParam(jsonObject,annotations);
+       // logger.info("输入参数：{}",jsonObject.toJSONString());
+
         // pjp.proceed的值就是被拦截方法的返回值
-        return pjp.proceed();
+       // return pjp.proceed();
+    }
+
+    private Map  analyticJoinPoint(JoinPoint pjp) throws IllegalAccessException {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest request = servletRequestAttributes.getRequest();
+        HttpServletResponse response = servletRequestAttributes.getResponse();
+
+        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+        Method method = methodSignature.getMethod();
+        //参数类型
+        Class[] parameterTypes = method.getParameterTypes();
+        //参数名
+        String[] parameterNames = methodSignature.getParameterNames();
+        //参数值
+        Object[] values = pjp.getArgs();
+        JSONObject jsonObject = new JSONObject();
+        for(int i = 0; i < parameterTypes.length; i++){
+            if(parameterTypes[i] != HttpServletRequest.class &&  parameterTypes[i] != HttpServletResponse.class){
+                Class clazz = parameterTypes[i];
+                if (clazz.isPrimitive()){
+                    jsonObject.put(parameterNames[i],values[i]);
+                }else if (clazz == String.class){
+                    jsonObject.put(parameterNames[i],values[i]);
+                } else if (clazz == Map.class ){
+                    Map<String,Object> value = (Map) values[i];
+                    for(Map.Entry entry : value.entrySet()){
+                        jsonObject.put((String)entry.getKey(),entry.getValue() );
+                    }
+                }else{
+                    Field[] fields = clazz.getDeclaredFields();
+                    for(Field field : fields){
+                        field.setAccessible(true);
+                        Object obj = field.get(values[i]);
+                        jsonObject.put(field.getName(),obj);
+                    }
+                }
+            }
+        }
+        if (jsonObject.containsKey("password")){
+            jsonObject.remove("password");
+        }
+        Map map = new HashMap();
+        map.put("param", jsonObject);
+        //获取注解的值
+        map.put("request", request);
+        map.put("response",response );
+        if (method.isAnnotationPresent(ParamNotNull.class)){
+            String[] annotations = method.getAnnotation(ParamNotNull.class).ParaName();
+            map.put("annotations",annotations);
+        }
+        return map;
+    }
+
+    private void checkRequestParam(JSONObject jsonObject,String[] annotations) throws GlobalException {
+        if (annotations != null && annotations.length > 0){
+            for(String annotation : annotations){
+                String value = (String) jsonObject.get(annotation);
+                if(StringUtil.isEmpty(value)){
+                    throw new GlobalException(ErrorMsgEnum.PARAM_NOT_NULL.getCode(),annotation + "," + ErrorMsgEnum.PARAM_NOT_NULL.getMsg());
+                }
+            }
+        }
+
+        for(Map.Entry<String,Object> entry : jsonObject.entrySet()){
+            String key = entry.getKey();
+            String value = (String) entry.getValue();
+            if (StringUtil.isNotEmpty(value)){
+                if (!IllegalStrUtil.sqlStrFilter(value)) {
+                    logger.info("输入参数存在SQL注入风险！参数为{}:{}",key,value);
+                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR.getCode(),ErrorMsgEnum.PARAM_ERROR.getMsg() + "," + value);
+                }
+                if (!IllegalStrUtil.isIllegalStr(value)) {
+                    logger.info("输入参数含有非法字符!参数为{}:{}",key,value);
+                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR.getCode(),ErrorMsgEnum.PARAM_ERROR.getMsg() + "," + value);
+                }
+            }
+        }
     }
 
     /**
@@ -50,43 +143,70 @@ public class GlobalLogAndParameterHandle {
      * @Description: 处理入参特殊字符和sql注入攻击
      * @Date: 15:37 2019/4/25
      */
-    private JSONObject checkRequestParam(ProceedingJoinPoint pjp,HttpServletResponse response) throws GlobalException {
+    private JSONObject checkRequestParam(Map map) throws GlobalException {
         JSONObject jsonObject = new JSONObject();
         //参数类型
-        Class[] parameterTypes = ((MethodSignature)pjp.getSignature()).getMethod().getParameterTypes();
+        Class[] parameterTypes = (Class[]) map.get("parameterTypes");
         //参数名
-        String[] keys = ((MethodSignature)pjp.getSignature()).getParameterNames();
+        String[] parameterNames = (String[]) map.get("parameterNames");
         //参数值
-        Object[] values = pjp.getArgs();
-
+        Object[] values = (Object[]) map.get("values");
+        //TODO  根据注解的值判断参数是否为空，入过为空，返回信息
         for (int i = 0; i < parameterTypes.length; i++){
             if(parameterTypes[i] != HttpServletRequest.class &&  parameterTypes[i] != HttpServletResponse.class){
+                String value2 = String.valueOf(values);
                 String value = String.valueOf(values[i]);
-
                 if (!IllegalStrUtil.sqlStrFilter(value)) {
-                    logger.info("输入参数存在SQL注入风险！参数为{}:{}",keys[i],values[i]);
-                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR);
+                    logger.info("输入参数存在SQL注入风险！参数为{}:{}",parameterNames[i],values[i]);
+                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR.getCode(),ErrorMsgEnum.PARAM_ERROR.getMsg() + "," + values[i]);
                 }
                 if (!IllegalStrUtil.isIllegalStr(value)) {
-                    logger.info("输入参数含有非法字符!参数为{}:{}",keys[i],values[i]);
-                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR);
+                    logger.info("输入参数含有非法字符!参数为{}:{}",parameterNames[i],values[i]);
+                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR.getCode(),ErrorMsgEnum.PARAM_ERROR.getMsg() + "," + values[i]);
+                }
+                if(!"password".equals(parameterNames[i])){
+                    jsonObject.put(parameterNames[i],value);
                 }
 
-                jsonObject.put(keys[i],value);
             }
         }
+        //根据ParamNotNull注解检查参数是否为空
+        if (map.containsKey("annotations")){
+            //注解的值
+            String[] annotations = (String[]) map.get("annotations");
+            checkParamNotNull(annotations,jsonObject);
+        }
+
         return jsonObject;
     }
 
-      //异常处理增强
+    //根据注解检查参数是否为空，如果为空，则抛出异常
+    private void checkParamNotNull(String[] annotations,JSONObject jsonObject) throws GlobalException {
+        if (annotations.length == 0){ //如果注解没有指定参数名，则检查全部参数
+            for(Map.Entry <String, Object> entry : jsonObject.entrySet()){
+                if (StringUtil.isEmpty((String)entry.getValue())){
+                    throw new GlobalException(ErrorMsgEnum.PARAM_NOT_NULL.getCode(),entry.getKey() + "," + ErrorMsgEnum.PARAM_NOT_NULL.getMsg());
+                }
+            }
+        }else if(annotations.length > 0){ //根据指定的参数名，检查参数是否为null
+            for (String annotation : annotations){
+                String str = (String) jsonObject.get(annotation);
+                if (StringUtil.isEmpty(str)){
+                    throw new GlobalException(ErrorMsgEnum.PARAM_NOT_NULL.getCode(),annotation + "," + ErrorMsgEnum.PARAM_NOT_NULL.getMsg());
+                }
+            }
+        }
+    }
+
+//      //异常处理增强
 //    @AfterThrowing(pointcut = ("pointCut()"), throwing = "e")
-//    public Result exceptionHandle(JoinPoint point, RuntimeException e) {
+//    public Result exceptionHandle(JoinPoint point, Exception e) {
 //        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 //        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
 //        HttpServletRequest request = sra.getRequest();
 //        HttpServletResponse response = sra.getResponse();
 //        Result result = defaultErrorHandler(e);
-//        //HttpUtil.responseWriteJson(response, result);
+//        HttpUtil.responseWriteJson(response, result);
 //        return result;
 //
 //    }
@@ -121,6 +241,7 @@ public class GlobalLogAndParameterHandle {
 //        result.setData(t);
 //        return result;
 //    }
+
 
 
 
