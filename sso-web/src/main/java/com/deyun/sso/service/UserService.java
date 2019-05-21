@@ -3,7 +3,11 @@ package com.deyun.sso.service;
 import com.deyun.user.AppUserService;
 import com.deyun.user.dto.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: nieyy
@@ -16,6 +20,8 @@ public class UserService {
 
     @Autowired
     private AppUserService appUserService;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     public String login(String account,String password){
         return appUserService.login(account, password);
@@ -26,7 +32,13 @@ public class UserService {
     }
 
     public AppUser selectByAccount(String account){
-        return appUserService.selectByAccount(account);
+        AppUser appUser = (AppUser) redisTemplate.opsForValue().get("user");
+        if (appUser == null){
+            appUser = appUserService.selectByAccount(account);
+            redisTemplate.opsForValue().set("user", appUser,30, TimeUnit.MINUTES);
+        }
+
+        return appUser;
     }
 
 
