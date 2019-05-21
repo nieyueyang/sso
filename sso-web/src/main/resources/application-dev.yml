@@ -70,6 +70,8 @@ mybatis:
       cache-enabled: false
 
 
+swagger:
+  enabled: true
 
 
 

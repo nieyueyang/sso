@@ -24,7 +24,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
     }
 
 
-    @PostMapping("/error")
+    @PostMapping(value = "/error")
     public void error(HttpServletRequest request, HttpServletResponse response) {
         Result result = new Result();
         Throwable throwable = getCause(request);

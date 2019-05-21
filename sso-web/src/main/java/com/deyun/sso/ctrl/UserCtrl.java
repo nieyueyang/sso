@@ -1,12 +1,10 @@
 package com.deyun.sso.ctrl;
 
-import com.deyun.common.annotation.ParamNotNull;
+import com.deyun.common.annotation.ParaNotNull;
 import com.deyun.sso.service.UserService;
 import com.deyun.user.dto.AppUser;
-import com.deyun.user.dto.AuthUser;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;;
 
@@ -23,13 +21,15 @@ public class UserCtrl {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
+    @ApiOperation(value="用户登陆", notes="用户登陆")
+    @PostMapping(value = "/login")
     public String login(String account,String password){
         return userService.login(account, password);
     }
 
-    @ParamNotNull(ParaName = {"account","name"})
-    @PostMapping("/register")
+    @ApiOperation(value="注册用户", notes="注册用户")
+    @ParaNotNull(ParaName = {"account","name"})
+    @PostMapping(value = "/register")
     public void register(@RequestBody AppUser appUser) throws Exception {
         userService.register(appUser);
     }
@@ -38,12 +38,10 @@ public class UserCtrl {
      * 单条查询
      * @return
      */
-
-    @ParamNotNull(ParaName = {"account"})
-    @RequestMapping("/selectByAccount")
-    public AppUser selectByAccount(HttpServletRequest request, @RequestParam("account") String account){
-        Authentication aa = SecurityContextHolder.getContext().getAuthentication();
-        AuthUser authUser = (AuthUser) aa.getPrincipal();
+    @ApiOperation(value="获取用户列表", notes="获取用户列表")
+    @ParaNotNull(ParaName = {"account"})
+    @RequestMapping(value = "/selectByAccount/{account}")
+    public AppUser selectByAccount(HttpServletRequest request,@PathVariable("account") String account){
         return userService.selectByAccount(account);
     }
 

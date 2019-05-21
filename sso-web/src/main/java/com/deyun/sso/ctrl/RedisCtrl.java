@@ -19,7 +19,7 @@ public class RedisCtrl {
     @Autowired
     RedisService redisService;
 
-    @RequestMapping("/acquireLock")
+    @RequestMapping(value = "/acquireLock")
     public void DistributedLockTest(){
         DistributedLockTest distributedLockTest = new DistributedLockTest(redisService);
         for(int i=0; i < 100; i++){

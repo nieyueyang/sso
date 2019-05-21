@@ -42,8 +42,10 @@ public class SecuiityConfig extends WebSecurityConfigurerAdapter {
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                // 对于获取token的rest api要允许匿名访问
+                // 对于获取token的rest api要
                 .antMatchers("/login","/register","druid").permitAll()
+                //swagger的所有请求swagger
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security","/swagger-ui.html","/images/**","/webjars/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 
@@ -78,7 +80,7 @@ public class SecuiityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/assets/**");
         web.ignoring().antMatchers("/favicon.ico");
         web.ignoring().antMatchers("/druid/**");
-
+        //web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
 

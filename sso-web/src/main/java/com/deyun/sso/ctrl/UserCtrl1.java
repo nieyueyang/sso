@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 public class UserCtrl1 {
     @Autowired
     UserService1 userService1;
@@ -20,7 +20,7 @@ public class UserCtrl1 {
      * 单条查询
      * @return
      */
-    @RequestMapping("/getUser")
+    @RequestMapping(value = "/getUser")
     public User getUser(){
         User user = new User();
         user.setId("1d18302017be46b6aa2c40837f92f698");
@@ -32,7 +32,7 @@ public class UserCtrl1 {
      * @return
      */
 
-    @RequestMapping("/queryForList")
+    @RequestMapping(value = "/queryForList")
     public List<User> queryForList() {
         User user = new User();
        // user.setUserCode("nyy");
@@ -44,7 +44,7 @@ public class UserCtrl1 {
      * 分页查询
      * @return
      */
-    @RequestMapping("/pageForList")
+    @RequestMapping(value = "/pageForList")
     public PageInfo<User> pageForList() {
         User user = new User();
         //user.setUserCode("nyy");
@@ -55,7 +55,7 @@ public class UserCtrl1 {
      * 单条插入
      * @throws Exception
      */
-    @RequestMapping("/insert")
+    @RequestMapping(value = "/insert")
     public void insert() throws Exception {
         User users = new User();
         users.setId(UUID.randomUUID().toString().replace("-",""));
@@ -80,7 +80,7 @@ public class UserCtrl1 {
      * 批量插入
      * @throws Exception
      */
-    @RequestMapping("/insertBatch")
+    @RequestMapping(value = "/insertBatch")
     public void insertBatch() throws Exception {
         User user = new User();
         //user.setId("aaaaa");
@@ -125,7 +125,7 @@ public class UserCtrl1 {
      * 数据修改
      * @throws Exception
      */
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update")
     public void upate() throws Exception {
         User user = new User();
         user.setUserCode("nyy4");
@@ -152,7 +152,7 @@ public class UserCtrl1 {
      * 删除
      * @throws Exception
      */
-    @RequestMapping("delete")
+    @RequestMapping(value = "delete")
     public void delete() throws Exception {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("user_code", "nyy");
@@ -174,7 +174,7 @@ public class UserCtrl1 {
      * 事务
      * @throws Exception
      */
-    @RequestMapping("/transient")
+    @RequestMapping(value = "/transient")
     public void transientTest() throws Exception {
         userService1.transientTest();
     }

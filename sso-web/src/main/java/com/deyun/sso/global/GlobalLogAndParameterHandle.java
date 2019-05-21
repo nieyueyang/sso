@@ -1,7 +1,7 @@
 package com.deyun.sso.global;
 
 import com.alibaba.fastjson.JSONObject;
-import com.deyun.common.annotation.ParamNotNull;
+import com.deyun.common.annotation.ParaNotNull;
 import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorMsgEnum;
 import com.deyun.common.exception.GlobalException;
@@ -47,14 +47,13 @@ public class GlobalLogAndParameterHandle {
             account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         }
         String url = request.getRequestURL().toString();
-
         String methodType = request.getMethod();
         String targetIp = HttpUtil.getRemoteHost(request);
         logger.info("account:{}, targetIp:{}, url:{}, method:{}",account,targetIp,url,methodType);
         JSONObject jsonObject = (JSONObject) map.get("param");
         String[] annotations = (String[]) map.get("annotations");
         checkRequestParam(jsonObject,annotations);
-       // logger.info("输入参数：{}",jsonObject.toJSONString());
+        logger.info("输入参数：{}",jsonObject.toJSONString());
 
         // pjp.proceed的值就是被拦截方法的返回值
        // return pjp.proceed();
@@ -105,8 +104,8 @@ public class GlobalLogAndParameterHandle {
         //获取注解的值
         map.put("request", request);
         map.put("response",response );
-        if (method.isAnnotationPresent(ParamNotNull.class)){
-            String[] annotations = method.getAnnotation(ParamNotNull.class).ParaName();
+        if (method.isAnnotationPresent(ParaNotNull.class)){
+            String[] annotations = method.getAnnotation(ParaNotNull.class).ParaName();
             map.put("annotations",annotations);
         }
         return map;
@@ -170,18 +169,18 @@ public class GlobalLogAndParameterHandle {
 
             }
         }
-        //根据ParamNotNull注解检查参数是否为空
+        //根据ParaNotNull注解检查参数是否为空
         if (map.containsKey("annotations")){
             //注解的值
             String[] annotations = (String[]) map.get("annotations");
-            checkParamNotNull(annotations,jsonObject);
+            checkParaNotNull(annotations,jsonObject);
         }
 
         return jsonObject;
     }
 
     //根据注解检查参数是否为空，如果为空，则抛出异常
-    private void checkParamNotNull(String[] annotations,JSONObject jsonObject) throws GlobalException {
+    private void checkParaNotNull(String[] annotations,JSONObject jsonObject) throws GlobalException {
         if (annotations.length == 0){ //如果注解没有指定参数名，则检查全部参数
             for(Map.Entry <String, Object> entry : jsonObject.entrySet()){
                 if (StringUtil.isEmpty((String)entry.getValue())){
