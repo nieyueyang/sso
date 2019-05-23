@@ -1,4 +1,4 @@
-package com.deyun.user;
+package com.deyun.user.service;
 
 
 import com.deyun.user.dto.AppUser;

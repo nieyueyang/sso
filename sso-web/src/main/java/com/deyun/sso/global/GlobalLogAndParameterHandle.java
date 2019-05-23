@@ -10,6 +10,7 @@ import com.deyun.common.util.IllegalStrUtil;
 import com.deyun.common.util.StringUtil;
 import com.deyun.user.dto.AuthUser;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -210,7 +212,7 @@ public class GlobalLogAndParameterHandle {
 //
 //    }
 
-      //返回值增强处理
+//      返回值增强处理
 //    @AfterReturning(pointcut = ("pointCut()"), returning = "returnValue")
 //    public void log(JoinPoint point, Object returnValue) {
 //        System.out.println("@AfterReturning：模拟日志记录功能...");
@@ -232,14 +234,14 @@ public class GlobalLogAndParameterHandle {
      * 如果参数中的第一个参数不为JoinPoint，则第一个参数为returning中对应的参数
      * returning 限定了只有目标方法返回值与通知方法相应参数类型时才能执行后置返回通知，否则不执行，对于returning对应的通知方法参数为Object类型将匹配任何目标返回值
      */
-//    @AfterReturning(value ="pointCut()",returning="t")
-//    public <T> Result returnDataHandle(ProceedingJoinPoint pjp, T t) {
-//        Result result = new Result();
-//        result.setCode(200);
-//        result.setMsg("访问成功");
-//        result.setData(t);
-//        return result;
-//    }
+    @AfterReturning(value ="pointCut()",returning="t")
+    public <T> Object returnDataHandle(ProceedingJoinPoint pjp, T t) {
+        Result result = new Result();
+        result.setCode(200);
+        result.setMsg("访问成功");
+        result.setData(t);
+        return result;
+    }
 
 
 

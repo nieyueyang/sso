@@ -1,12 +1,10 @@
 package com.deyun.sso.service;
 
-import com.deyun.user.AppUserService;
+import com.deyun.user.service.AppUserService;
 import com.deyun.user.dto.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.concurrent.TimeUnit;
 
 /**

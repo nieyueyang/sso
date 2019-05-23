@@ -1,10 +1,7 @@
 package com.deyun.user.service;
 
-import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.exception.UserException;
-import com.deyun.common.util.HttpUtil;
-import com.deyun.user.AppUserService;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 

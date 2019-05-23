@@ -3,7 +3,6 @@ package com.deyun.user.service;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.exception.UserException;
 import com.deyun.mybatis.mapper.BaseDaoService;
-import com.deyun.user.AppUserService;
 import com.deyun.user.constants.Constants;
 import com.deyun.user.dao.AppUserDao;
 import com.deyun.user.dto.AppUser;

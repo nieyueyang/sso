@@ -3,7 +3,7 @@ package com.deyun.user.filter;
 import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.util.HttpUtil;
-import com.deyun.user.AppUserService;
+import com.deyun.user.service.AppUserService;
 import com.deyun.user.constants.Constants;
 import com.deyun.user.dto.AuthUser;
 import com.deyun.user.util.TokenUtil;

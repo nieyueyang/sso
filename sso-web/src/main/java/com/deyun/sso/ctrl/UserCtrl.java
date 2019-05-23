@@ -40,9 +40,11 @@ public class UserCtrl {
      */
     @ApiOperation(value="获取用户列表", notes="获取用户列表")
     @ParaNotNull(ParaName = {"account"})
-    @RequestMapping(value = "/selectByAccount/{account}")
+    @GetMapping(value = "/selectByAccount/{account}")
     public AppUser selectByAccount(HttpServletRequest request,@PathVariable("account") String account){
         return userService.selectByAccount(account);
     }
+    
+
 
 }
