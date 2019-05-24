@@ -24,9 +24,9 @@
 		create_date,modify_account,modify_date
 	</sql>
 
-	<select id="selectAppRole" resultMap="appRoleResult">
+	<select id="selectForList" resultMap="appRoleResult">
 		select <include refid="selectAllItems"/>
-		from app_user
+		from app_role
 		<include refid="role_getPage_sql"/>
 	</select>
 
@@ -35,23 +35,23 @@
 			<if test="id and id != ''">
 				and id = #{id}
 			</if>
-			<if test="role_code and role_code != ''">
-				and role_code = #{role_code}
+			<if test="roleCode and roleCode != ''">
+				and role_code = #{roleCode}
 			</if>
-			<if test="role_name and role_name != ''">
-				and role_name = #{role_name}
+			<if test="roleName and roleName != ''">
+				and role_name = #{roleName}
 			</if>
-			<if test="role_type and role_type != ''">
-				and role_type = #{role_type}
+			<if test="roleType and roleType != ''">
+				and role_type = #{roleType}
 			</if>
 			<if test="isactive and isactive != ''">
 				and isactive = #{isactive}
 			</if>
-			<if test="sys_id and sys_id != ''">
-				and sys_id = #{sys_id}
+			<if test="sysId and sysId != ''">
+				and sys_id = #{sysId}
 			</if>
-			<if test="tenant_id and tenant_id != ''">
-				and tenant_id = #{tenant_id}
+			<if test="tenantId and tenantId != ''">
+				and tenant_id = #{tenantId}
 			</if>
 			<!--<if test="type and type != ''">-->
 				<!--and  bitor(type,#{type})=type-->

@@ -2,6 +2,7 @@ package com.deyun.user.service;
 
 import com.deyun.user.dto.AppRole;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: nieyy
@@ -11,6 +12,12 @@ import java.util.List;
  */
 public interface AppRoleService {
 
-    List<AppRole> selectAppRole(AppRole appRole);
+    List<AppRole> selectForList(AppRole appRole);
+
+    int addAppRole(AppRole appRole) throws Exception;
+
+    int updateAppRole(AppRole appRole,Map map) throws Exception;
+
+    int deleteAppRole(Map map);
 
 }

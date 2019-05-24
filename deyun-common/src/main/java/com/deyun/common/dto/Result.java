@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Result<T>  implements Serializable {
     private int code;
     private String msg;
-    private T data;
+    private T data = null;
 
     public Result(){ }
 

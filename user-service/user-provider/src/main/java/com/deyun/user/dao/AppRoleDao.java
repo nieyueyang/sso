@@ -19,9 +19,11 @@ public class AppRoleDao {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    public List<AppRole> selectAppRole(AppRole appRole) {
-        return sqlSessionTemplate.selectList("com.approle.selectAppRole", appRole);
+    public List<AppRole> selectForList(AppRole appRole) {
+        return sqlSessionTemplate.selectList("com.approle.selectForList", appRole);
     }
+
+
 
 
 }

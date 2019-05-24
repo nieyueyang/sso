@@ -40,7 +40,7 @@ public class GlobalLogAndParameterHandle {
     @Before("pointCut()")
     public void handleControllerMethod(JoinPoint pjp) throws Throwable {
         //Stopwatch stopwatch = Stopwatch.createStarted();
-        Result result = new Result();
+        //Result result = new Result();
         String account =  "";
         Map map = analyticJoinPoint(pjp);
         HttpServletRequest request = (HttpServletRequest) map.get("request");
@@ -234,14 +234,14 @@ public class GlobalLogAndParameterHandle {
      * 如果参数中的第一个参数不为JoinPoint，则第一个参数为returning中对应的参数
      * returning 限定了只有目标方法返回值与通知方法相应参数类型时才能执行后置返回通知，否则不执行，对于returning对应的通知方法参数为Object类型将匹配任何目标返回值
      */
-    @AfterReturning(value ="pointCut()",returning="t")
-    public <T> Object returnDataHandle(ProceedingJoinPoint pjp, T t) {
-        Result result = new Result();
-        result.setCode(200);
-        result.setMsg("访问成功");
-        result.setData(t);
-        return result;
-    }
+//    @AfterReturning(pointcut ="pointCut()",returning="t")
+//    public <T> Result returnDataHandle(JoinPoint pjp, T t) {
+//        Result result = new Result();
+//        result.setCode(200);
+//        result.setMsg("访问成功");
+//        result.setData(t);
+//        return result;
+//    }
 
 
 

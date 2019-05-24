@@ -2,7 +2,6 @@ package com.deyun.user.dto;
 
 import com.deyun.mybatis.annotation.Id;
 import com.deyun.mybatis.annotation.Table;
-
 import java.sql.Timestamp;
 
 /**
