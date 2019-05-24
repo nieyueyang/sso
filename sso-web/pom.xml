@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>sso-web</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>
