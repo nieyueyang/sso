@@ -2,6 +2,7 @@ package com.deyun.sso.global;
 
 import com.deyun.common.dto.Result;
 import com.deyun.common.enums.ErrorMsgEnum;
+import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.exception.GlobalException;
 import com.deyun.common.exception.UserException;
 import com.deyun.common.util.HttpUtil;
@@ -32,15 +33,21 @@ public class GlobalExceptionHandler extends AbstractErrorController {
             result = defaultErrorHandler((Exception) throwable);
         }else{
             int httpCode  = response.getStatus();
-            if (httpCode == 404){
+            if (httpCode == 400){
+                result.setCode(ErrorMsgEnum.PARAM_NOT_FOUND.getCode());
+                result.setMsg(ErrorMsgEnum.PARAM_NOT_FOUND.getMsg());
+            } else if (httpCode == 403){
+                result.setCode(ErrorUserMsgEnum.AUTHORIZATION_NOT_FOUND.getCode());
+                result.setMsg(ErrorUserMsgEnum.AUTHORIZATION_NOT_FOUND.getMsg());
+            } else if (httpCode == 404){
+                result.setCode(ErrorMsgEnum.NOT_FOUND.getCode());
+                result.setMsg(ErrorMsgEnum.NOT_FOUND.getMsg());
+            }else if (httpCode == 405){
                 result.setCode(ErrorMsgEnum.NOT_FOUND.getCode());
                 result.setMsg(ErrorMsgEnum.NOT_FOUND.getMsg());
             }else if(httpCode == 500){
                 result.setCode(ErrorMsgEnum.INTERNAL_SERVER_ERROR.getCode());
                 result.setMsg(ErrorMsgEnum.INTERNAL_SERVER_ERROR.getMsg());
-            }else if (httpCode == 400){
-                result.setCode(ErrorMsgEnum.PARAM_NOT_FOUND.getCode());
-                result.setMsg(ErrorMsgEnum.PARAM_NOT_FOUND.getMsg());
             }else{
                 result.setCode(ErrorMsgEnum.UnknowErrorMsg.getCode());
                 result.setMsg(ErrorMsgEnum.UnknowErrorMsg.getMsg());

@@ -12,6 +12,7 @@ public enum ErrorUserMsgEnum {
     TOKEN_TIMEOUT(20002,"TOKEN已过期"),
     LOGIN_TIMEOUT(20003,"登录超时，请您重新登录"),
     USERNAME_NOT_FOUND(20004,"用户名或密码错误"),
+    AUTHORIZATION_NOT_FOUND(20005,"你没有访问权限"),
     WRONG_USERNAME_OR_PASSWORD(20010,"用户名或密码错误"),
     WRONG_CHECKCODE(20011,"输入的验证码不正确"),
     PARAM_ERROR(20012,"参数不能为空"),
