@@ -1,7 +1,9 @@
 package com.deyun.sso.service;
 
+import com.deyun.common.dto.Result;
 import com.deyun.user.service.AppUserService;
 import com.deyun.user.dto.AppUser;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,10 @@ public class UserService {
         }
 
         return appUser;
+    }
+
+    public PageInfo<AppUser> selectForPage(int pageNum, int pageSize, String OrderBy, AppUser appUser){
+        return appUserService.selectForPage(pageNum, pageSize, OrderBy, appUser);
     }
 
 

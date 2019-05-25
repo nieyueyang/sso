@@ -42,9 +42,9 @@
 		from app_user where account = #{account}
 	</select>
 
-  <select id="queryUser" resultMap="appUserResult">
+  <select id="selectForPage" resultMap="appUserResult">
      SELECT <include refid="selectAllItems"/>
-      FROM base_user
+      FROM app_user
 
       <include refid="user_getPage_sql"/>
       ORDER BY CREATE_TIME DESC
@@ -55,8 +55,11 @@
 			<if test="id and id != ''">
 				and id = #{id}
 			</if>
-			<if test="userCode and userCode != ''">
-				and user_code = #{userCode}
+			<if test="account and account != ''">
+				and account = #{account}
+			</if>
+			<if test="name and name != ''">
+				and name like concat('%', #{name}, '%')
 			</if>
 			<!--<if test="type and type != ''">-->
 				<!--and  bitor(type,#{type})=type-->

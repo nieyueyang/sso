@@ -3,16 +3,12 @@ package com.deyun.sso.ctrl;
 import com.deyun.common.dto.Result;
 import com.deyun.sso.service.RoleService;
 import com.deyun.user.dto.AppRole;
-import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;

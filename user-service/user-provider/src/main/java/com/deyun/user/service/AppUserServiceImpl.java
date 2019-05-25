@@ -8,6 +8,8 @@ import com.deyun.user.dao.AppUserDao;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
 import com.deyun.user.util.TokenUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,9 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -57,6 +61,17 @@ public class AppUserServiceImpl implements AppUserService {
     public int register(AppUser appUser) throws Exception {
         appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         return baseDaoService.insert(appUser);
+    }
+
+    @Override
+    public PageInfo<AppUser> selectForPage(int pageNum,int pageSize,String OrderBy,AppUser appUser) {
+        if (!StringUtils.isEmpty(OrderBy)){
+
+        }
+        PageHelper.startPage(pageNum , pageSize,"create_date desc");
+        List<AppUser> list = appUserDao.selectForPage(appUser);
+        PageInfo<AppUser> PageUser = new PageInfo <>(list);
+        return PageUser;
     }
 
     @Override

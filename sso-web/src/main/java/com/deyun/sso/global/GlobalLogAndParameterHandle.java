@@ -116,7 +116,7 @@ public class GlobalLogAndParameterHandle {
     private void checkRequestParam(JSONObject jsonObject,String[] annotations) throws GlobalException {
         if (annotations != null && annotations.length > 0){
             for(String annotation : annotations){
-                String value = (String) jsonObject.get(annotation);
+                String value = String.valueOf(jsonObject.get(annotation));
                 if(StringUtil.isEmpty(value)){
                     throw new GlobalException(ErrorMsgEnum.PARAM_NOT_NULL.getCode(),annotation + "," + ErrorMsgEnum.PARAM_NOT_NULL.getMsg());
                 }
@@ -125,7 +125,7 @@ public class GlobalLogAndParameterHandle {
 
         for(Map.Entry<String,Object> entry : jsonObject.entrySet()){
             String key = entry.getKey();
-            String value = (String) entry.getValue();
+            String value = String.valueOf(entry.getValue());
             if (StringUtil.isNotEmpty(value)){
                 if (!IllegalStrUtil.sqlStrFilter(value)) {
                     logger.info("输入参数存在SQL注入风险！参数为{}:{}",key,value);
