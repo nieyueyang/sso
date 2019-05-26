@@ -1,6 +1,6 @@
 package com.deyun.sso.service;
 
-import com.deyun.common.dto.Result;
+import com.deyun.common.domain.PageParameter;
 import com.deyun.user.service.AppUserService;
 import com.deyun.user.dto.AppUser;
 import com.github.pagehelper.PageInfo;
@@ -23,28 +23,17 @@ public class UserService {
     @Autowired
     RedisTemplate redisTemplate;
 
-    public String login(String account,String password){
-        return appUserService.login(account, password);
-    }
-
-    public int register(AppUser appUser) throws Exception {
-        return appUserService.register(appUser);
-    }
-
     public AppUser selectByAccount(String account){
         AppUser appUser = (AppUser) redisTemplate.opsForValue().get("user");
         if (appUser == null){
             appUser = appUserService.selectByAccount(account);
             redisTemplate.opsForValue().set("user", appUser,30, TimeUnit.MINUTES);
         }
-
         return appUser;
     }
 
-    public PageInfo<AppUser> selectForPage(int pageNum, int pageSize, String OrderBy, AppUser appUser){
-        return appUserService.selectForPage(pageNum, pageSize, OrderBy, appUser);
+    public PageInfo<AppUser> selectForPage(PageParameter pageParameter){
+        return appUserService.selectForPage(pageParameter);
     }
-
-
 
 }

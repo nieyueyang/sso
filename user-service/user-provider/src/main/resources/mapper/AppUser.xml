@@ -47,7 +47,9 @@
       FROM app_user
 
       <include refid="user_getPage_sql"/>
-      ORDER BY CREATE_TIME DESC
+      <if test="id and id != ''">
+	  	order by #{orderBy}
+	  </if>
   </select>
 
 	<sql id="user_getPage_sql">

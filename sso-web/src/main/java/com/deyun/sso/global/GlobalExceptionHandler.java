@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class GlobalExceptionHandler extends AbstractErrorController {
     }
 
 
-    @PostMapping(value = "/error")
+    @RequestMapping(value = "/error")
     public void error(HttpServletRequest request, HttpServletResponse response) {
         Result result = new Result();
         Throwable throwable = getCause(request);

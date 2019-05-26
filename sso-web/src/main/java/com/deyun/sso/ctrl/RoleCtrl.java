@@ -29,7 +29,7 @@ public class RoleCtrl {
 
     @ApiOperation(value="获取角色列表", notes="获取角色列表")
     @GetMapping("/{id}")
-    public Result selectForList(@PathVariable("id") String id){
+    public Result selectForList(@PathVariable("id") String id) throws Exception {
         AppRole appRole = new AppRole();
         appRole.setId(id);
         List<AppRole> listRole= roleService.selectForList(appRole);

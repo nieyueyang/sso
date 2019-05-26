@@ -15,6 +15,7 @@ import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -76,6 +77,8 @@ public class GlobalLogAndParameterHandle {
         //参数值
         Object[] values = pjp.getArgs();
         JSONObject jsonObject = new JSONObject();
+        Map paraMap=request.getParameterMap();
+        jsonObject.putAll(paraMap);
         for(int i = 0; i < parameterTypes.length; i++){
             if(parameterTypes[i] != HttpServletRequest.class &&  parameterTypes[i] != HttpServletResponse.class){
                 Class clazz = parameterTypes[i];

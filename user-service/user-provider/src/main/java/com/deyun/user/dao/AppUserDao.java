@@ -1,5 +1,6 @@
 package com.deyun.user.dao;
 
+import com.deyun.common.domain.PageParameter;
 import com.deyun.user.dto.AppUser;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class AppUserDao {
         return sqlSessionTemplate.selectOne("com.appuser.selectByAccount", account);
     }
 
-    public List<AppUser> selectForPage(AppUser appUser){
-        return sqlSessionTemplate.selectList("com.appuser.selectForPage",appUser);
+    public List<AppUser> selectForPage(PageParameter pageParameter){
+        return sqlSessionTemplate.selectList("com.appuser.selectForPage",pageParameter);
     }
 
 }

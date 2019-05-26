@@ -2,8 +2,7 @@ package com.deyun.user.dto;
 
 import com.deyun.mybatis.annotation.Id;
 import com.deyun.mybatis.annotation.Table;
-
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * @Author: nieyy
@@ -27,9 +26,9 @@ public class AppUser {
     private String source;
     private String createAccount;
     private String createName;
-    private Timestamp createDate;
+    private Instant createDate;
     private String modifyAccount;
-    private Timestamp modifyDate;
+    private Instant modifyDate;
 
     public String getId() {
         return id;
@@ -135,11 +134,11 @@ public class AppUser {
         this.createName = createName;
     }
 
-    public Timestamp getCreateDate() {
+    public Instant getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Instant createDate) {
         this.createDate = createDate;
     }
 
@@ -151,11 +150,11 @@ public class AppUser {
         this.modifyAccount = modifyAccount;
     }
 
-    public Timestamp getModifyDate() {
+    public Instant getModifyDate() {
         return modifyDate;
     }
 
-    public void setModifyDate(Timestamp modifyDate) {
+    public void setModifyDate(Instant modifyDate) {
         this.modifyDate = modifyDate;
     }
 }

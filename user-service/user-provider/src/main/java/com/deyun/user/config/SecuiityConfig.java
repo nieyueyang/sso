@@ -43,7 +43,7 @@ public class SecuiityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 // 对于获取token的rest api要
-                .antMatchers("/login","/register","druid").permitAll()
+                .antMatchers("/login","/register","/druid").permitAll()
                 //swagger的所有请求swagger
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security","/swagger-ui.html","/images/**","/webjars/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证

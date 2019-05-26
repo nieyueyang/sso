@@ -1,5 +1,6 @@
 package com.deyun.user.service;
 
+import com.deyun.common.domain.PageParameter;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.exception.UserException;
 import com.deyun.mybatis.mapper.BaseDaoService;
@@ -18,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -64,12 +64,9 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public PageInfo<AppUser> selectForPage(int pageNum,int pageSize,String OrderBy,AppUser appUser) {
-        if (!StringUtils.isEmpty(OrderBy)){
-
-        }
-        PageHelper.startPage(pageNum , pageSize,"create_date desc");
-        List<AppUser> list = appUserDao.selectForPage(appUser);
+    public PageInfo<AppUser> selectForPage(PageParameter pageParameter) {
+        PageHelper.startPage(pageParameter.getPageNum() , pageParameter.getPageSize(),pageParameter.getOrderBy());
+        List<AppUser> list = appUserDao.selectForPage(pageParameter);
         PageInfo<AppUser> PageUser = new PageInfo <>(list);
         return PageUser;
     }
