@@ -2,6 +2,7 @@ package com.deyun.common.util;
 
 import com.alibaba.fastjson.JSON;
 import com.deyun.common.dto.Result;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class HttpUtil {
 
     public static <T> void ResponseError(HttpServletResponse response,T t) throws IOException {
         OutputStream out = null;
+        response.setStatus(200);
         response.setContentType("application/json; charset=utf-8");
         response.setCharacterEncoding("UTF-8"); // 避免乱码
         try{
@@ -36,12 +38,14 @@ public class HttpUtil {
     }
 
     public static void ResponseError(HttpServletResponse response) throws IOException {
+        response.setStatus(200);
         response.setContentType("application/json; charset=utf-8");
         response.setCharacterEncoding("UTF-8"); // 避免乱码
         response.flushBuffer();
     }
 
     public static <T> void responseWriteJson(HttpServletResponse response, T t) {
+        response.setStatus(200);
         response.setContentType("application/json;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
         try {
@@ -52,6 +56,7 @@ public class HttpUtil {
     }
 
     public static void responseWriteJson(HttpServletResponse response) {
+        response.setStatus(200);
         response.setContentType("application/json;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
         try {
