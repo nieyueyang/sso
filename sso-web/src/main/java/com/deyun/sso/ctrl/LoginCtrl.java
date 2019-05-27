@@ -1,6 +1,7 @@
 package com.deyun.sso.ctrl;
 
 import com.deyun.common.annotation.ParaNotNull;
+import com.deyun.common.dto.Result;
 import com.deyun.sso.service.LoginService;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
@@ -27,8 +28,9 @@ public class LoginCtrl {
 
     @ApiOperation(value="用户登陆", notes="用户登陆")
     @PostMapping(value = "/login")
-    public String login(String account,String password){
-        return loginService.login(account, password);
+    public Result login(String account,String password){
+        String token = loginService.login(account, password);
+        return new Result(token);
     }
 
     @ApiOperation(value="注册用户", notes="注册用户")
