@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="com.appMenu">
+
+	<resultMap id="appMenuResult" type="com.deyun.user.dto.AppMenu">
+		<result column="menu_id" property="menuId"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="name" property="name"/>
+		<result column="url" property="url"/>
+		<result column="perms" property="perms"/>
+		<result column="type" property="type"/>
+		<result column="icon" property="icon"/>
+		<result column="order_num" property="orderNum"/>
+	</resultMap>
+
+	<sql id="selectAllItems">
+		menu_id,parent_id,name,url,perms,type,icon,order_num
+	</sql>
+
+	<select id="selectForList" resultMap="appMenuResult">
+		select <include refid="selectAllItems"/>
+		from sys_menu
+		<include refid="menu_getPage_sql"/>
+	</select>
+
+	<sql id="menu_getPage_sql">
+		<where>
+			<if test="menuId and menuId != ''">
+				and menu_id = #{menuId}
+			</if>
+			<if test="parentId and parentId != ''">
+				and parent_id = #{parentId}
+			</if>
+			<if test="name and name != ''">
+				and name = #{name}
+			</if>
+			<if test="url and url != ''">
+				and url = #{url}
+			</if>
+			<if test="type and type != ''">
+				and type = #{type}
+			</if>
+			<if test="orderNum and orderNum != ''">
+				and order_num = #{orderNum}
+			</if>
+
+			<!--<if test="type and type != ''">-->
+				<!--and  bitor(type,#{type})=type-->
+			<!--</if>-->
+
+		</where>
+	</sql>
+
+  
+
+
+
+  
+
+
+	
+	
+
+
+
+      
+</mapper>

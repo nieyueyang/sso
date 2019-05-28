@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 
 /**
@@ -28,8 +29,8 @@ public class LoginCtrl {
 
     @ApiOperation(value="用户登陆", notes="用户登陆")
     @PostMapping(value = "/login")
-    public Result login(String account,String password){
-        String token = loginService.login(account, password);
+    public Result login(HttpServletResponse response,String account, String password){
+        String token = loginService.login(response,account, password);
         return new Result(token);
     }
 

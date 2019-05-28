@@ -1,10 +1,10 @@
 package com.deyun.user.service;
 
+import com.deyun.common.constants.Constants;
 import com.deyun.common.domain.PageParameter;
 import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.exception.UserException;
 import com.deyun.mybatis.mapper.BaseDaoService;
-import com.deyun.user.constants.Constants;
 import com.deyun.user.dao.AppUserDao;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,6 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public String login(String account, String password) {
-        String token = "";
         try{
             UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(account,password);
             Authentication authentication = authenticationManager.authenticate(upToken);
@@ -50,11 +48,12 @@ public class AppUserServiceImpl implements AppUserService {
             map.put(Constants.USER_NAME,authUser.getName());
             map.put(Constants.TOKEN_EXPIRATION,Instant.now().toEpochMilli() + Constants.EXPIRATION_TIME);
             map.put(Constants.TOKEN_REFRESH, Instant.now().toEpochMilli() + Constants.EXPIRATION_TIME + Constants.REFRESH_TIME);
-            token = TokenUtil.generateToken(map);
+            String token = TokenUtil.generateToken(map);
+            return token;
         }catch(Exception e){
             throw new UserException(ErrorUserMsgEnum.WRONG_USERNAME_OR_PASSWORD);
         }
-        return token;
+
     }
 
     @Override

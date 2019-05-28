@@ -1,4 +1,4 @@
-package com.deyun.user.constants;
+package com.deyun.common.constants;
 
 /**
  * @Author: nieyy

@@ -1,9 +1,13 @@
 package com.deyun.sso.service;
 
+import com.deyun.common.constants.Constants;
+import com.deyun.common.util.CookieUtil;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author: nieyy
@@ -17,8 +21,9 @@ public class LoginService {
     @Autowired
     private AppUserService appUserService;
 
-    public String login(String account,String password){
-        return appUserService.login(account, password);
+    public String login(HttpServletResponse response, String account, String password){
+        String token = appUserService.login(account, password);
+        return token;
     }
 
     public int register(AppUser appUser) throws Exception {
