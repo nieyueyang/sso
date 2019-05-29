@@ -21,7 +21,8 @@ public class AppMenuServiceImpl implements AppMenuService {
 
     @Override
     public List<AppMenu> selectForList(AppMenu appMenu) {
-        return appMenuDao.selectForList(appMenu);
+        List<AppMenu> list = appMenuDao.selectForList(appMenu);
+        return list;
     }
 
 

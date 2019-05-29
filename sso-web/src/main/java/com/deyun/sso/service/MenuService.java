@@ -22,4 +22,7 @@ public class MenuService {
     public List<AppMenu> selectForList(AppMenu appMenu){
         return appMenuService.selectForList(appMenu);
     }
+
+
+
 }
