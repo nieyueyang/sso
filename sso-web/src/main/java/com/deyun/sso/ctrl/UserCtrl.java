@@ -46,14 +46,19 @@ public class UserCtrl {
     @GetMapping(value = "/{pageNum}/{pageSize}")
     public Result selectForPage(HttpServletRequest request,@PathVariable("pageNum") int pageNum,
                                 @PathVariable("pageSize") int pageSize){
+        PageParameter pageParameter = new PageParameter();
+        if(StringUtils.isEmpty(pageNum)){
+            pageParameter.setPageNum(pageNum);
+        }
 
+        if (StringUtils.isEmpty(pageSize)){
+            pageParameter.setPageSize(pageSize);
+        }
         String account = request.getParameter("account");
         String name = request.getParameter("name");
         String orderby = request.getParameter("orderby");
 
-        PageParameter pageParameter = new PageParameter();
-        pageParameter.setPageNum(pageNum);
-        pageParameter.setPageSize(pageSize);
+
         if (StringUtils.isEmpty(orderby)){
             orderby="create_date";
         }

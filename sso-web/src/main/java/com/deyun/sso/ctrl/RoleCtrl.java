@@ -7,6 +7,7 @@ import com.deyun.user.dto.AuthUser;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -31,7 +32,9 @@ public class RoleCtrl {
     @GetMapping("/{id}")
     public Result selectForList(@PathVariable("id") String id) throws Exception {
         AppRole appRole = new AppRole();
-        appRole.setId(id);
+//        if(!StringUtils.isEmpty(id)){
+//            appRole.setId(id);
+//        }
         List<AppRole> listRole= roleService.selectForList(appRole);
         Result result = new Result(listRole);
        return result;
