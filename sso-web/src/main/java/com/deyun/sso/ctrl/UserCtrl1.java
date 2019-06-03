@@ -1,5 +1,6 @@
 package com.deyun.sso.ctrl;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.sso.pojo.User;
 import com.deyun.sso.service.UserService1;
 import com.github.pagehelper.PageInfo;
@@ -142,10 +143,10 @@ public class UserCtrl1 {
         Timestamp time1 = new Timestamp(System.currentTimeMillis());
         user.setCreateTime2(new Date());
         user.setCreateTime3(time1);
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("user_code", "nyy");
+        QueryParameter queryParameter = new QueryParameter();
+        queryParameter.put("user_code", "nyy");
         // map.put("user_name", "聂月阳");
-        userService1.update(user,map);
+        userService1.update(user,queryParameter);
     }
 
     /**
@@ -154,9 +155,9 @@ public class UserCtrl1 {
      */
     @RequestMapping(value = "delete")
     public void delete() throws Exception {
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("user_code", "nyy");
-        userService1.delete("base_user",map);
+        QueryParameter queryParameter = new QueryParameter();
+        queryParameter.put("user_code", "nyy");
+        userService1.delete("base_user",queryParameter);
     }
 
     /**

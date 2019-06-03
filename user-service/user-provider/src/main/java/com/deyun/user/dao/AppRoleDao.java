@@ -1,10 +1,10 @@
 package com.deyun.user.dao;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.user.dto.AppRole;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
@@ -19,8 +19,8 @@ public class AppRoleDao {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    public List<AppRole> selectForList(AppRole appRole) {
-        return sqlSessionTemplate.selectList("com.approle.selectForList", appRole);
+    public List<AppRole> selectForList(QueryParameter queryParameter) {
+        return sqlSessionTemplate.selectList("com.approle.selectForList", queryParameter);
     }
 
 

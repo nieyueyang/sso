@@ -1,5 +1,6 @@
 package com.deyun.sso.service;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.mybatis.mapper.BaseDaoService;
 import com.deyun.sso.pojo.BaseDept;
 import com.deyun.sso.pojo.User;
@@ -57,12 +58,12 @@ public class UserService1 {
         return baseDaoService.insertBatch(list);
     }
 
-    public int update(User users,Map map) throws Exception {
-        return baseDaoService.update(users,map);
+    public int update(User users,QueryParameter queryParameter) throws Exception {
+        return baseDaoService.update(users,queryParameter);
     }
 
-    public int delete(String tableName,Map map) throws Exception {
-        return baseDaoService.delete(tableName,map);
+    public int delete(String tableName,QueryParameter queryParameter) throws Exception {
+        return baseDaoService.delete(tableName,queryParameter);
     }
 
     public int deleteBatch(String tableName,List<String> list) throws Exception {

@@ -1,5 +1,7 @@
 package com.deyun.mybatis.mapper;
 
+import com.deyun.common.domain.QueryParameter;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +20,9 @@ public interface BaseDaoService<T> {
 
     int insertBatch(List <T> list) throws Exception;
 
-    int update(T t, Map map) throws Exception;
+    int update(T t, QueryParameter queryParameter) throws Exception;
 
-    int delete(String tableName, Map map);
+    int delete(String tableName, QueryParameter queryParameter);
 
     int deleteBatch(String tableName, List <String> list);
 

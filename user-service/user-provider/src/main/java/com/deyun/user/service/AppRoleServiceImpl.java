@@ -1,12 +1,11 @@
 package com.deyun.user.service;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.mybatis.mapper.BaseDaoService;
 import com.deyun.user.dao.AppRoleDao;
 import com.deyun.user.dto.AppRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +24,8 @@ public class AppRoleServiceImpl implements AppRoleService {
     BaseDaoService baseDaoService;
 
     @Override
-    public List<AppRole> selectForList(AppRole appRole) {
-        return appRoleDao.selectForList(appRole);
+    public List<AppRole> selectForList(QueryParameter queryParameter) {
+        return appRoleDao.selectForList(queryParameter);
     }
 
     @Override
@@ -35,13 +34,13 @@ public class AppRoleServiceImpl implements AppRoleService {
     }
 
     @Override
-    public int updateAppRole(AppRole appRole,Map map) throws Exception {
-        return baseDaoService.update(appRole, map);
+    public int updateAppRole(AppRole appRole,QueryParameter queryParameter) throws Exception {
+        return baseDaoService.update(appRole, queryParameter);
     }
 
     @Override
-    public int deleteAppRole(Map map) {
-        return baseDaoService.delete("app_role", map);
+    public int deleteAppRole(QueryParameter queryParameter) {
+        return baseDaoService.delete("app_role", queryParameter);
     }
 
 }

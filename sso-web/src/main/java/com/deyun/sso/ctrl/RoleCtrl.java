@@ -1,15 +1,23 @@
 package com.deyun.sso.ctrl;
 
+import com.deyun.common.annotation.ParaNotNull;
+import com.deyun.common.domain.PageParameter;
+import com.deyun.common.domain.PageParameter2;
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.common.dto.Result;
 import com.deyun.sso.service.RoleService;
 import com.deyun.user.dto.AppRole;
+import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -29,15 +37,12 @@ public class RoleCtrl {
     private RoleService roleService;
 
     @ApiOperation(value="获取角色列表", notes="获取角色列表")
-    @GetMapping("/{id}")
-    public Result selectForList(@PathVariable("id") String id) throws Exception {
-        AppRole appRole = new AppRole();
-//        if(!StringUtils.isEmpty(id)){
-//            appRole.setId(id);
-//        }
-        List<AppRole> listRole= roleService.selectForList(appRole);
-        Result result = new Result(listRole);
-       return result;
+    @ParaNotNull(ParaName = {"pageNum","pageSize"})
+    @PostMapping("/selectForPage")
+    public Result selectForPage(@RequestBody PageParameter2 pageParameter2){
+
+        PageInfo <AppRole> list = roleService.selectForPage(pageParameter2);
+        return new Result(list);
     }
 
     @ApiOperation(value="添加角色", notes="添加角色")
@@ -57,14 +62,14 @@ public class RoleCtrl {
     @RequestMapping(value = "/{id}" ,method = RequestMethod.PUT)
     public Result updateAppRole(HttpServletRequest request,@PathVariable("id") String id) throws Exception {
         String account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
-        Map map = new HashMap();
-        map.put("id", id);
+        QueryParameter queryParameter = new QueryParameter();
+        queryParameter.put("id", id);
         AppRole appRole = new AppRole();
         appRole.setRoleName(request.getParameter("roleName"));
         appRole.setRoleType(request.getParameter("roleType"));
         appRole.setModifyAccount(account);
         appRole.setModifyDate(Instant.now());
-        int i = roleService.updateAppRole(appRole,map);
+        int i = roleService.updateAppRole(appRole,queryParameter);
         Result result = new Result(i);
         return result;
     }
@@ -72,9 +77,9 @@ public class RoleCtrl {
     @ApiOperation(value="删除角色信息", notes="删除角色信息")
     @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
     public Result deleteAppRole(@PathVariable("id") String id){
-        Map map = new HashMap();
-        map.put("id", id);
-        int i = roleService.deleteAppRole(map);
+        QueryParameter queryParameter = new QueryParameter();
+        queryParameter.put("id", id);
+        int i = roleService.deleteAppRole(queryParameter);
         Result result = new Result(i);
         return result;
     }

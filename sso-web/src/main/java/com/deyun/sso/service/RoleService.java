@@ -1,11 +1,15 @@
 package com.deyun.sso.service;
 
+import com.deyun.common.domain.PageParameter;
+import com.deyun.common.domain.PageParameter2;
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.user.dto.AppRole;
 import com.deyun.user.service.AppRoleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: nieyy
@@ -19,20 +23,23 @@ public class RoleService {
     @Autowired
     private AppRoleService appRoleService;
 
-    public List<AppRole> selectForList(AppRole appRole){
-        return appRoleService.selectForList(appRole);
+    public PageInfo<AppRole> selectForPage(PageParameter2 pageParameter2){
+        PageHelper.startPage(pageParameter2.getPageNum(), pageParameter2.getPageSize(),pageParameter2.getOrderBy());
+        List <AppRole> list = appRoleService.selectForList((QueryParameter)pageParameter2.getHbasMap());
+        PageInfo<AppRole> PageUser = new PageInfo<>(list);
+        return PageUser;
     }
 
     public int addAppRole(AppRole appRole) throws Exception {
         return appRoleService.addAppRole(appRole);
     }
 
-    public int updateAppRole(AppRole appRole,Map map) throws Exception {
-        return appRoleService.updateAppRole(appRole,map);
+    public int updateAppRole(AppRole appRole,QueryParameter queryParameter) throws Exception {
+        return appRoleService.updateAppRole(appRole,queryParameter);
     }
 
-    public int deleteAppRole(Map map){
-        return appRoleService.deleteAppRole(map);
+    public int deleteAppRole(QueryParameter queryParameter){
+        return appRoleService.deleteAppRole(queryParameter);
     }
 
 

@@ -1,5 +1,6 @@
 package com.deyun.user.service;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.mybatis.mapper.BaseDaoService;
 import com.deyun.user.dto.AppRoleUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class AppRoleUserServiceImpl implements AppRoleUserService {
     }
 
     @Override
-    public int updateAppRoleUser(AppRoleUser appRoleUser,Map map) throws Exception {
-        return baseDaoService.update(appRoleUser, map);
+    public int updateAppRoleUser(AppRoleUser appRoleUser,QueryParameter queryParameter) throws Exception {
+        return baseDaoService.update(appRoleUser, queryParameter);
     }
 
     @Override
-    public int deleteAppRoleUser(Map map) {
-        return baseDaoService.delete("app_role_user", map);
+    public int deleteAppRoleUser(QueryParameter queryParameter) {
+        return baseDaoService.delete("app_role_user", queryParameter);
     }
 
 

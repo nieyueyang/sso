@@ -35,11 +35,11 @@
 			<if test="id and id != ''">
 				and id = #{id}
 			</if>
-			<if test="roleCode and roleCode != ''">
+			<if test="roleCode !=null and roleCode != ''">
 				and role_code = #{roleCode}
 			</if>
-			<if test="roleName and roleName != ''">
-				and role_name = #{roleName}
+			<if test="roleName !=null and roleName != ''">
+				and role_name like concat('%', #{roleName}, '%')
 			</if>
 			<if test="roleType and roleType != ''">
 				and role_type = #{roleType}

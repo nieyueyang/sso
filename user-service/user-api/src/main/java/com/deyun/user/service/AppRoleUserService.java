@@ -1,5 +1,6 @@
 package com.deyun.user.service;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.user.dto.AppRoleUser;
 import java.util.Map;
 
@@ -13,8 +14,8 @@ public interface AppRoleUserService {
 
     int addAppRoleUser(AppRoleUser appRoleUser) throws Exception;
 
-    int updateAppRoleUser(AppRoleUser appRoleUser,Map map) throws Exception;
+    int updateAppRoleUser(AppRoleUser appRoleUser,QueryParameter queryParameter) throws Exception;
 
-    int deleteAppRoleUser(Map map);
+    int deleteAppRoleUser(QueryParameter queryParameter);
 
 }

@@ -1,5 +1,6 @@
 package com.deyun.user.service;
 
+import com.deyun.common.domain.QueryParameter;
 import com.deyun.user.dto.AppRole;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,12 @@ import java.util.Map;
  */
 public interface AppRoleService {
 
-    List<AppRole> selectForList(AppRole appRole);
+    List<AppRole> selectForList(QueryParameter queryParameter);
 
     int addAppRole(AppRole appRole) throws Exception;
 
-    int updateAppRole(AppRole appRole,Map map) throws Exception;
+    int updateAppRole(AppRole appRole,QueryParameter queryParameter) throws Exception;
 
-    int deleteAppRole(Map map);
+    int deleteAppRole(QueryParameter queryParameter);
 
 }

@@ -23,6 +23,7 @@ public class LoginService {
 
     public String login(HttpServletResponse response, String account, String password){
         String token = appUserService.login(account, password);
+        CookieUtil.save(Constants.HEADER_STRING,token , (int)Constants.EXPIRATION_TIME,"localhost" ,response);
         return token;
     }
 
