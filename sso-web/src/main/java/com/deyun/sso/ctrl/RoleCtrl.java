@@ -39,9 +39,9 @@ public class RoleCtrl {
     @ApiOperation(value="获取角色列表", notes="获取角色列表")
     @ParaNotNull(ParaName = {"pageNum","pageSize"})
     @PostMapping("/selectForPage")
-    public Result selectForPage(@RequestBody PageParameter2 pageParameter2){
+    public Result selectForPage(@RequestBody Map map){
 
-        PageInfo <AppRole> list = roleService.selectForPage(pageParameter2);
+        PageInfo <AppRole> list = roleService.selectForPage(map);
         return new Result(list);
     }
 

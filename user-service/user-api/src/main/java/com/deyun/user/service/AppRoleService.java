@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface AppRoleService {
 
-    List<AppRole> selectForList(QueryParameter queryParameter);
+    List<AppRole> selectForList(Map map);
 
     int addAppRole(AppRole appRole) throws Exception;
 

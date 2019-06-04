@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: nieyy
@@ -23,9 +24,9 @@ public class RoleService {
     @Autowired
     private AppRoleService appRoleService;
 
-    public PageInfo<AppRole> selectForPage(PageParameter2 pageParameter2){
-        PageHelper.startPage(pageParameter2.getPageNum(), pageParameter2.getPageSize(),pageParameter2.getOrderBy());
-        List <AppRole> list = appRoleService.selectForList((QueryParameter)pageParameter2.getHbasMap());
+    public PageInfo<AppRole> selectForPage(Map map){
+        PageHelper.startPage((int)map.get("pageNum"),(int)map.get("pageSize"), (String)map.get("orderBy"));
+        List <AppRole> list = appRoleService.selectForList(map);
         PageInfo<AppRole> PageUser = new PageInfo<>(list);
         return PageUser;
     }
