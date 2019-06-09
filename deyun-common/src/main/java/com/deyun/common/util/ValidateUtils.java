@@ -1,18 +1,19 @@
 package com.deyun.common.util;
 
+import com.deyun.common.domain.PageParameter;
+
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
- * <p>
  * 
  * @author nieyy
  * @date 2018-1-5 
  * 
  */
 public class ValidateUtils {
-	
+
 	/**
 	 * 
 	 * @param str

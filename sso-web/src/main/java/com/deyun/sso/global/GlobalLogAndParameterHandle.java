@@ -142,48 +142,6 @@ public class GlobalLogAndParameterHandle {
         }
     }
 
-    /**
-     * @Author: nieyy
-     * @Description: 处理入参特殊字符和sql注入攻击
-     * @Date: 15:37 2019/4/25
-     */
-    private JSONObject checkRequestParam(Map map) throws GlobalException {
-        JSONObject jsonObject = new JSONObject();
-        //参数类型
-        Class[] parameterTypes = (Class[]) map.get("parameterTypes");
-        //参数名
-        String[] parameterNames = (String[]) map.get("parameterNames");
-        //参数值
-        Object[] values = (Object[]) map.get("values");
-        //TODO  根据注解的值判断参数是否为空，入过为空，返回信息
-        for (int i = 0; i < parameterTypes.length; i++){
-            if(parameterTypes[i] != HttpServletRequest.class &&  parameterTypes[i] != HttpServletResponse.class){
-                String value2 = String.valueOf(values);
-                String value = String.valueOf(values[i]);
-                if (!IllegalStrUtil.sqlStrFilter(value)) {
-                    logger.info("输入参数存在SQL注入风险！参数为{}:{}",parameterNames[i],values[i]);
-                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR.getCode(),ErrorMsgEnum.PARAM_ERROR.getMsg() + "," + values[i]);
-                }
-                if (!IllegalStrUtil.isIllegalStr(value)) {
-                    logger.info("输入参数含有非法字符!参数为{}:{}",parameterNames[i],values[i]);
-                    throw new GlobalException(ErrorMsgEnum.PARAM_ERROR.getCode(),ErrorMsgEnum.PARAM_ERROR.getMsg() + "," + values[i]);
-                }
-                if(!"password".equals(parameterNames[i])){
-                    jsonObject.put(parameterNames[i],value);
-                }
-
-            }
-        }
-        //根据ParaNotNull注解检查参数是否为空
-        if (map.containsKey("annotations")){
-            //注解的值
-            String[] annotations = (String[]) map.get("annotations");
-            checkParaNotNull(annotations,jsonObject);
-        }
-
-        return jsonObject;
-    }
-
     //根据注解检查参数是否为空，如果为空，则抛出异常
     private void checkParaNotNull(String[] annotations,JSONObject jsonObject) throws GlobalException {
         if (annotations.length == 0){ //如果注解没有指定参数名，则检查全部参数

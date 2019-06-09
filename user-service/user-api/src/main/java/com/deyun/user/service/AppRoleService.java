@@ -2,6 +2,8 @@ package com.deyun.user.service;
 
 import com.deyun.common.domain.QueryParameter;
 import com.deyun.user.dto.AppRole;
+import com.github.pagehelper.PageInfo;
+
 import java.util.List;
 import java.util.Map;
 

@@ -1,6 +1,7 @@
 package com.deyun.mybatis.mapper;
 
 import com.deyun.common.domain.QueryParameter;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;

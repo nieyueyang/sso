@@ -40,14 +40,9 @@ public class RoleCtrl {
     @ParaNotNull(ParaName = {"pageNum","pageSize"})
     @PostMapping("/selectForPage")
     public Result selectForPage(@RequestBody Map map){
+
         int pageNum = (int)map.get("pageNum");
-        if (pageNum == 0){
-            pageNum = 1;
-        }
         int pageSize = (int)map.get("pageSize");
-        if (pageSize == 0){
-            pageSize = 10;
-        }
         PageInfo <AppRole> list = roleService.selectForPage(pageNum,pageSize,map);
         return new Result(list);
     }

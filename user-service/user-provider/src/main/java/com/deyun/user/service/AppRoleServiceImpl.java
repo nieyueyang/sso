@@ -4,6 +4,7 @@ import com.deyun.common.domain.QueryParameter;
 import com.deyun.mybatis.mapper.BaseDaoService;
 import com.deyun.user.dao.AppRoleDao;
 import com.deyun.user.dto.AppRole;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
