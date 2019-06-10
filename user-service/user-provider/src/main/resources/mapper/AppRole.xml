@@ -30,6 +30,12 @@
 		<include refid="role_getPage_sql"/>
 	</select>
 
+	<select id="selectForCount" resultMap="appRoleResult">
+		select count(0) count
+		from app_role
+		<include refid="role_getPage_sql"/>
+	</select>
+
 	<sql id="role_getPage_sql">
 		<where>
 			<if test="id and id != ''">
