@@ -10,6 +10,7 @@
 		<result column="salt" property="salt"/>
 		<result column="parent_id" property="parentId"/>
 		<result column="sex" property="sex"/>
+		<result column="birthday" property="birthday"/>
 		<result column="phone" property="phone"/>
 		<result column="email" property="email"/>
 		<result column="company_id" property="companyId"/>
@@ -26,7 +27,7 @@
   </resultMap>
     
   <sql id="selectAllItems">
-  	id, account,name,salt,parent_id, sex, phone,email,company_id,source,
+  	id, account,name,salt,parent_id, sex,birthday, phone,email,company_id,source,
   	create_account,create_name,create_date,modify_account,modify_date
   </sql>
 
@@ -54,13 +55,13 @@
 
 	<sql id="user_getPage_sql">
 		<where>
-			<if test="id and id != ''">
+			<if test="id !=null and id != ''">
 				and id = #{id}
 			</if>
-			<if test="account and account != ''">
-				and account = #{account}
+			<if test="account !=null and account != ''">
+				and account like concat('%', #{account}, '%')
 			</if>
-			<if test="name and name != ''">
+			<if test="name !=null and name != ''">
 				and name like concat('%', #{name}, '%')
 			</if>
 			<!--<if test="type and type != ''">-->
@@ -74,13 +75,4 @@
 
 
 
-  
-
-
-	
-	
-
-
-
-      
 </mapper>

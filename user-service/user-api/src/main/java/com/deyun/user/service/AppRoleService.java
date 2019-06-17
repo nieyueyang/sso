@@ -19,8 +19,11 @@ public interface AppRoleService {
 
     int addAppRole(AppRole appRole) throws Exception;
 
-    int updateAppRole(AppRole appRole,QueryParameter queryParameter) throws Exception;
+    int updateAppRole(AppRole appRole,Map map) throws Exception;
 
-    int deleteAppRole(QueryParameter queryParameter);
+    int deleteAppRole(List<String> list);
+
+    List<AppRole> queryUserRoleForList(Map map);
+
 
 }

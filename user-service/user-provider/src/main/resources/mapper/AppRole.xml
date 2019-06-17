@@ -30,33 +30,33 @@
 		<include refid="role_getPage_sql"/>
 	</select>
 
-	<select id="selectForCount" resultMap="appRoleResult">
-		select count(0) count
-		from app_role
-		<include refid="role_getPage_sql"/>
+	<select id="queryUserRoleForList" resultMap="appRoleResult">
+		select <include refid="selectAllItems"/>
+		from app_user_role aur,app_role ar where aur.role_id=ar.id
+		and aur.user_id= #{id}
 	</select>
 
 	<sql id="role_getPage_sql">
 		<where>
-			<if test="id and id != ''">
+			<if test="id !=null and id != ''">
 				and id = #{id}
 			</if>
 			<if test="roleCode !=null and roleCode != ''">
-				and role_code = #{roleCode}
+				and role_code like concat('%', #{roleCode}, '%')
 			</if>
 			<if test="roleName !=null and roleName != ''">
 				and role_name like concat('%', #{roleName}, '%')
 			</if>
-			<if test="roleType and roleType != ''">
+			<if test="roleType !=null and roleType != ''">
 				and role_type = #{roleType}
 			</if>
-			<if test="isactive and isactive != ''">
+			<if test="isactive !=null and isactive != ''">
 				and isactive = #{isactive}
 			</if>
-			<if test="sysId and sysId != ''">
+			<if test="sysId !=null and sysId != ''">
 				and sys_id = #{sysId}
 			</if>
-			<if test="tenantId and tenantId != ''">
+			<if test="tenantId !=null and tenantId != ''">
 				and tenant_id = #{tenantId}
 			</if>
 			<!--<if test="type and type != ''">-->

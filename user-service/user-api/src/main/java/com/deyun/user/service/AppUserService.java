@@ -1,22 +1,24 @@
 package com.deyun.user.service;
 
-import com.deyun.common.domain.PageParameter;
 import com.deyun.user.dto.AppUser;
-import com.github.pagehelper.PageInfo;
+import java.util.List;
+import java.util.Map;
 
 public interface AppUserService {
 
     String login(String account, String password);
 
-    int register(AppUser appUser) throws Exception;
-
-    PageInfo<AppUser> selectForPage(PageParameter pageParameter);
+    List<AppUser> queryForList(Map map);
 
     AppUser selectAppUserByAccount(String account);
 
     AppUser selectByAccount(String account);
 
+    int register(AppUser appUser) throws Exception;
 
+    int updateAppUser(AppUser appUser, Map map) throws Exception;
+
+    int deleteAppUser(List<String> list);
 
 }
 

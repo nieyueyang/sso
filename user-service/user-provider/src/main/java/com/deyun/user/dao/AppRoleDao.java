@@ -24,5 +24,9 @@ public class AppRoleDao {
         return sqlSessionTemplate.selectList("com.approle.selectForList", map);
     }
 
+    public List<AppRole> queryUserRoleForList(Map map){
+        return sqlSessionTemplate.selectList("com.approle.queryUserRoleForList",map);
+    }
+
 
 }

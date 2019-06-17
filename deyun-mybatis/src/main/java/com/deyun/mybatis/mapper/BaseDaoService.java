@@ -21,9 +21,9 @@ public interface BaseDaoService<T> {
 
     int insertBatch(List <T> list) throws Exception;
 
-    int update(T t, QueryParameter queryParameter) throws Exception;
+    int update(T t, Map map) throws Exception;
 
-    int delete(String tableName, QueryParameter queryParameter);
+    int delete(String tableName,  Map map);
 
     int deleteBatch(String tableName, List <String> list);
 

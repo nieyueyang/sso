@@ -1,12 +1,12 @@
 package com.deyun.user.dao;
 
-import com.deyun.common.domain.PageParameter;
 import com.deyun.user.dto.AppUser;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: nieyy
@@ -28,8 +28,8 @@ public class AppUserDao {
         return sqlSessionTemplate.selectOne("com.appuser.selectByAccount", account);
     }
 
-    public List<AppUser> selectForPage(PageParameter pageParameter){
-        return sqlSessionTemplate.selectList("com.appuser.selectForPage",pageParameter);
+    public List<AppUser> queryForList(Map map){
+        return sqlSessionTemplate.selectList("com.appuser.selectForPage",map);
     }
 
 }

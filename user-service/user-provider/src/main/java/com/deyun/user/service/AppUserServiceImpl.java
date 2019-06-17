@@ -6,6 +6,7 @@ import com.deyun.common.enums.ErrorUserMsgEnum;
 import com.deyun.common.exception.UserException;
 import com.deyun.mybatis.mapper.BaseDaoService;
 import com.deyun.user.dao.AppUserDao;
+import com.deyun.user.dto.AppRole;
 import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
 import com.deyun.user.util.TokenUtil;
@@ -18,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -57,17 +60,8 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public int register(AppUser appUser) throws Exception {
-        appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
-        return baseDaoService.insert(appUser);
-    }
-
-    @Override
-    public PageInfo<AppUser> selectForPage(PageParameter pageParameter) {
-        PageHelper.startPage(pageParameter.getPageNum() , pageParameter.getPageSize(),pageParameter.getOrderBy());
-        List<AppUser> list = appUserDao.selectForPage(pageParameter);
-        PageInfo<AppUser> PageUser = new PageInfo <>(list);
-        return PageUser;
+    public List<AppUser> queryForList(Map map) {
+        return appUserDao.queryForList(map);
     }
 
     @Override
@@ -78,6 +72,27 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser selectByAccount(String account) {
        return appUserDao.selectByAccount(account);
+    }
+
+    @Override
+    public int register(AppUser appUser) throws Exception {
+        String password = appUser.getPassword();
+        if (StringUtils.isEmpty(password)){
+            password = "888888";
+        }
+        appUser.setPassword(bCryptPasswordEncoder.encode(password));
+        return baseDaoService.insert(appUser);
+    }
+
+    @Override
+    public int updateAppUser(AppUser appUser, Map map) throws Exception {
+        return baseDaoService.update(appUser, map);
+    }
+
+
+    @Override
+    public int deleteAppUser(List<String> list) {
+        return baseDaoService.deleteBatch("app_user", list);
     }
 
 }

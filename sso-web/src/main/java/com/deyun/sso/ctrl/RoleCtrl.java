@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class RoleCtrl {
     }
 
     @ApiOperation(value="添加角色", notes="添加角色")
+    @ParaNotNull(ParaName = {"roleCode","roleName"})
     @PostMapping
     public Result addAppRole(@RequestBody AppRole appRole) throws Exception {
         String account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
@@ -61,32 +63,44 @@ public class RoleCtrl {
     }
 
     @ApiOperation(value="更新角色信息", notes="更新角色信息")
+    @ParaNotNull(ParaName = {"id"})
     @RequestMapping(value = "/{id}" ,method = RequestMethod.PUT)
-    public Result updateAppRole(HttpServletRequest request,@PathVariable("id") String id) throws Exception {
+    public Result updateAppRole(HttpServletRequest request,@PathVariable("id") String id,@RequestBody AppRole appRole ) throws Exception {
         String account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
-        QueryParameter queryParameter = new QueryParameter();
-        queryParameter.put("id", id);
-        AppRole appRole = new AppRole();
-        appRole.setRoleName(request.getParameter("roleName"));
-        appRole.setRoleType(request.getParameter("roleType"));
+        Map map = new HashMap();
+        map.put("id", id);
+        appRole.setId(id);
         appRole.setModifyAccount(account);
         appRole.setModifyDate(Instant.now());
-        int i = roleService.updateAppRole(appRole,queryParameter);
+        int i = roleService.updateAppRole(appRole,map);
         Result result = new Result(i);
         return result;
     }
 
     @ApiOperation(value="删除角色信息", notes="删除角色信息")
+    @ParaNotNull(ParaName = {"id"})
     @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
     public Result deleteAppRole(@PathVariable("id") String id){
-        QueryParameter queryParameter = new QueryParameter();
-        queryParameter.put("id", id);
-        int i = roleService.deleteAppRole(queryParameter);
+        String[] strs = id.split(",");
+        List<String> list= Arrays.asList(strs);
+        int i = roleService.deleteAppRole(list);
         Result result = new Result(i);
         return result;
     }
 
 
+    @ApiOperation(value="查询用户拥有的角色", notes="查询用户拥有的角色")
+    @ParaNotNull(ParaName = {"id","pageNum","pageSize"})
+    @GetMapping(value = "/{id}/{pageNum}/{pageSize}")
+    public Result queryUserRoleForPage(@PathVariable("id") String id,
+                                       @PathVariable("pageNum") int pageNum,
+                                       @PathVariable("pageSize") int pageSize){
+        Map map = new HashMap();
+        map.put("id", id);
+        //map.put("orderBy","" );
+        PageInfo<AppRole> list = roleService.queryUserRoleForPage(pageNum,pageSize,map);
+        return new Result(list);
+    }
 
 
 }

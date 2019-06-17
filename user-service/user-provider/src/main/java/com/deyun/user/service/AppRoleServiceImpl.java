@@ -35,13 +35,18 @@ public class AppRoleServiceImpl implements AppRoleService {
     }
 
     @Override
-    public int updateAppRole(AppRole appRole,QueryParameter queryParameter) throws Exception {
-        return baseDaoService.update(appRole, queryParameter);
+    public int updateAppRole(AppRole appRole,Map map) throws Exception {
+        return baseDaoService.update(appRole, map);
     }
 
     @Override
-    public int deleteAppRole(QueryParameter queryParameter) {
-        return baseDaoService.delete("app_role", queryParameter);
+    public int deleteAppRole(List<String> list) {
+        return baseDaoService.deleteBatch("app_role", list);
+    }
+
+    @Override
+    public List <AppRole> queryUserRoleForList(Map map) {
+        return appRoleDao.queryUserRoleForList(map);
     }
 
 }

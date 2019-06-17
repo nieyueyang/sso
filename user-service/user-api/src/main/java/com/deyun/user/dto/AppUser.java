@@ -3,6 +3,7 @@ package com.deyun.user.dto;
 import com.deyun.mybatis.annotation.Id;
 import com.deyun.mybatis.annotation.Table;
 import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * @Author: nieyy
@@ -20,6 +21,7 @@ public class AppUser {
     private String salt;
     private String parentId;
     private String sex;
+    private LocalDate birthday;
     private String phone;
     private String email;
     private String companyId;
@@ -84,6 +86,14 @@ public class AppUser {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public String getPhone() {

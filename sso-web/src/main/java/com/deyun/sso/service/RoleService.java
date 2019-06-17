@@ -36,12 +36,20 @@ public class RoleService {
         return appRoleService.addAppRole(appRole);
     }
 
-    public int updateAppRole(AppRole appRole,QueryParameter queryParameter) throws Exception {
-        return appRoleService.updateAppRole(appRole,queryParameter);
+    public int updateAppRole(AppRole appRole,Map map) throws Exception {
+        return appRoleService.updateAppRole(appRole,map);
     }
 
-    public int deleteAppRole(QueryParameter queryParameter){
-        return appRoleService.deleteAppRole(queryParameter);
+    public int deleteAppRole(List<String> list){
+        return appRoleService.deleteAppRole(list);
+    }
+
+    public PageInfo<AppRole> queryUserRoleForPage(int pageNum,int pageSize,Map map){
+
+        PageHelper.startPage(pageNum,pageSize, (String)map.get("orderBy"));
+        List <AppRole> list = appRoleService.queryUserRoleForList(map);
+        PageInfo<AppRole> PageUser = new PageInfo<>(list);
+        return PageUser;
     }
 
 

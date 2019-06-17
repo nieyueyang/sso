@@ -1,6 +1,5 @@
 package com.deyun.mybatis.mapper.impl;
 
-import com.deyun.common.domain.QueryParameter;
 import com.deyun.mybatis.annotation.Column;
 import com.deyun.mybatis.annotation.Id;
 import com.deyun.mybatis.annotation.Table;
@@ -182,12 +181,12 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
     /**
      * 数据更新
      * @param t 数据库映射类
-     * @param queryParameter where条件键值对，key为数据库字段
+     * @param map where条件键值对，key为数据库字段
      * @return 返回更新数量
      * @throws Exception
      */
     @Override
-    public int update(T t,QueryParameter queryParameter) throws Exception {
+    public int update(T t,Map map) throws Exception {
         Class<?> clazz = t.getClass();
         String tableName = getTableName(clazz);
         Map param = new HashMap();
@@ -210,21 +209,21 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
 
         param.put("tableName", tableName);
         param.put("COLUMNS", mapColumn);
-        param.put("Where", queryParameter);
+        param.put("Where", map);
         return sqlSessionTemplate.update("com.baseDao.update", param);
     }
 
     /**
      * 条件删除
      * @param tableName  数据库表名
-     * @param queryParameter  where 条件的键值对，KEY为数据库的表字段
+     * @param map  where 条件的键值对，KEY为数据库的表字段
      * @return 删除数据的数量
      */
     @Override
-    public int delete(String tableName,QueryParameter queryParameter) {
+    public int delete(String tableName, Map map) {
         Map<String,Object> param = new HashMap();
         param.put("tableName", tableName);
-        param.put("Where", queryParameter);
+        param.put("Where", map);
         return sqlSessionTemplate.delete("com.baseDao.delete", param);
     }
 
@@ -236,10 +235,10 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
      */
     @Override
     public int deleteBatch(String tableName,List<String> list) {
-        QueryParameter queryParameter = new QueryParameter();
-        queryParameter.put("tableName", tableName);
-        queryParameter.put("list", list);
-        return sqlSessionTemplate.delete("com.baseDao.deleteBatch", queryParameter);
+        Map map = new HashMap();
+        map.put("tableName", tableName);
+        map.put("list", list);
+        return sqlSessionTemplate.delete("com.baseDao.deleteBatch", map);
     }
 
     /**
