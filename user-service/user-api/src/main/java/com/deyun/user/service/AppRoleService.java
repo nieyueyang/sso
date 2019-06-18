@@ -23,7 +23,5 @@ public interface AppRoleService {
 
     int deleteAppRole(List<String> list);
 
-    List<AppRole> queryUserRoleForList(Map map);
-
 
 }

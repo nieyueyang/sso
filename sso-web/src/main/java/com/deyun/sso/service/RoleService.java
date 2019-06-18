@@ -1,8 +1,5 @@
 package com.deyun.sso.service;
 
-import com.deyun.common.domain.PageParameter;
-import com.deyun.common.domain.PageParameter2;
-import com.deyun.common.domain.QueryParameter;
 import com.deyun.user.dto.AppRole;
 import com.deyun.user.service.AppRoleService;
 import com.github.pagehelper.PageHelper;
@@ -44,13 +41,7 @@ public class RoleService {
         return appRoleService.deleteAppRole(list);
     }
 
-    public PageInfo<AppRole> queryUserRoleForPage(int pageNum,int pageSize,Map map){
 
-        PageHelper.startPage(pageNum,pageSize, (String)map.get("orderBy"));
-        List <AppRole> list = appRoleService.queryUserRoleForList(map);
-        PageInfo<AppRole> PageUser = new PageInfo<>(list);
-        return PageUser;
-    }
 
 
 }

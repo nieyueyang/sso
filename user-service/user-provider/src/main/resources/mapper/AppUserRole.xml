@@ -1,46 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
  
-<mapper namespace="com.approle">
+<mapper namespace="com.appUserRole">
 
-	<resultMap id="appRoleResult" type="com.deyun.user.dto.AppRole">
+	<resultMap id="appRoleResult" type="com.deyun.user.dto.AppUserRole">
 		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_account" property="userAccount"/>
+		<result column="role_id" property="roleId"/>
+		<result column="is_delete" property="isDelete"/>
 		<result column="role_code" property="roleCode"/>
 		<result column="role_name" property="roleName"/>
 		<result column="role_type" property="roleType"/>
 		<result column="isactive" property="isactive"/>
-		<result column="sys_id" property="sysId"/>
-		<result column="tenant_id" property="tenantId"/>
-		<result column="remark" property="remark"/>
-		<result column="create_account" property="createAccount"/>
-		<result column="create_name" property="createName"/>
-		<result column="create_date" property="createDate"/>
-		<result column="modify_account" property="modifyAccount"/>
-		<result column="modify_date" property="modifyDate"/>
 	</resultMap>
 
 	<sql id="selectAllItems">
-		id, role_code,role_name,role_type,isactive,sys_id,tenant_id,remark,create_account,create_name,
-		create_date,modify_account,modify_date
+		id,user_id,user_account,role_id,is_delete,role_code,role_name,
+		role_type
 	</sql>
 
-	<select id="selectForList" resultMap="appRoleResult">
-		select <include refid="selectAllItems"/>
-		from app_role
-		<include refid="role_getPage_sql"/>
-	</select>
-
 	<select id="queryUserRoleForList" resultMap="appRoleResult">
-		select <include refid="selectAllItems"/>
-		from app_user_role aur join app_role ar on aur.role_id=ar.id
-		where aur.user_id= #{id}
+		select aur.id,user_id,user_account,role_id,aur.is_delete,ar.role_code,ar.role_name,ar.role_type,ar.isactive
+		from app_role ar left join app_user_role aur on ar.id = aur.role_id and aur.user_id= #{id}
+		<include refid="role_getPage_sql"/>
+
 	</select>
 
 	<sql id="role_getPage_sql">
 		<where>
-			<if test="id !=null and id != ''">
-				and id = #{id}
-			</if>
 			<if test="roleCode !=null and roleCode != ''">
 				and role_code like concat('%', #{roleCode}, '%')
 			</if>

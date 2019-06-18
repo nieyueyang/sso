@@ -1,23 +1,16 @@
 package com.deyun.sso.ctrl;
 
 import com.deyun.common.annotation.ParaNotNull;
-import com.deyun.common.domain.PageParameter;
-import com.deyun.common.domain.PageParameter2;
-import com.deyun.common.domain.QueryParameter;
 import com.deyun.common.dto.Result;
 import com.deyun.sso.service.RoleService;
 import com.deyun.user.dto.AppRole;
-import com.deyun.user.dto.AppUser;
 import com.deyun.user.dto.AuthUser;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,19 +81,6 @@ public class RoleCtrl {
         return result;
     }
 
-
-    @ApiOperation(value="查询用户拥有的角色", notes="查询用户拥有的角色")
-    @ParaNotNull(ParaName = {"id","pageNum","pageSize"})
-    @GetMapping(value = "/{id}/{pageNum}/{pageSize}")
-    public Result queryUserRoleForPage(@PathVariable("id") String id,
-                                       @PathVariable("pageNum") int pageNum,
-                                       @PathVariable("pageSize") int pageSize){
-        Map map = new HashMap();
-        map.put("id", id);
-        //map.put("orderBy","" );
-        PageInfo<AppRole> list = roleService.queryUserRoleForPage(pageNum,pageSize,map);
-        return new Result(list);
-    }
 
 
 }

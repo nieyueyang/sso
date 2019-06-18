@@ -44,9 +44,5 @@ public class AppRoleServiceImpl implements AppRoleService {
         return baseDaoService.deleteBatch("app_role", list);
     }
 
-    @Override
-    public List <AppRole> queryUserRoleForList(Map map) {
-        return appRoleDao.queryUserRoleForList(map);
-    }
 
 }

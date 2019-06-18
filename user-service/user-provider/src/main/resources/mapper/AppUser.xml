@@ -48,7 +48,7 @@
       FROM app_user
 
       <include refid="user_getPage_sql"/>
-      <if test="id and id != ''">
+      <if test="orderBy!=null and orderBy != ''">
 	  	order by #{orderBy}
 	  </if>
   </select>
