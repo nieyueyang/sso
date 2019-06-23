@@ -24,16 +24,10 @@
 		create_date,modify_account,modify_date
 	</sql>
 
-	<select id="selectForList" resultMap="appRoleResult">
+	<select id="queryForList" resultMap="appRoleResult">
 		select <include refid="selectAllItems"/>
 		from app_role
 		<include refid="role_getPage_sql"/>
-	</select>
-
-	<select id="queryUserRoleForList" resultMap="appRoleResult">
-		select <include refid="selectAllItems"/>
-		from app_user_role aur join app_role ar on aur.role_id=ar.id
-		where aur.user_id= #{id}
 	</select>
 
 	<sql id="role_getPage_sql">

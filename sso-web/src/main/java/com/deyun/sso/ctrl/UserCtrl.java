@@ -48,8 +48,8 @@ public class UserCtrl {
     @ApiOperation(value="获取用户列表", notes="获取用户列表")
     @ParaNotNull(ParaName = {"account"})
     @GetMapping(value = "/{account}")
-    public AppUser selectByAccount(@PathVariable("account") String account){
-        return userService.selectByAccount(account);
+    public AppUser queryByAccount(@PathVariable("account") String account){
+        return userService.queryByAccount(account);
     }
 
     @ApiOperation(value="注册用户", notes="注册用户")
@@ -81,6 +81,7 @@ public class UserCtrl {
         return result;
     }
 
+    @ApiOperation(value="删除用户信息", notes="删除用户信息")
     @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
     public Result deleteAppUser(@PathVariable("id") String id){
         String[] strs = id.split(",");

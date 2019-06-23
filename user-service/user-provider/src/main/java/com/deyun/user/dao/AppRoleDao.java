@@ -20,8 +20,8 @@ public class AppRoleDao {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    public List<AppRole> selectForList(Map map) {
-        return sqlSessionTemplate.selectList("com.approle.selectForList", map);
+    public List<AppRole> queryForPage(Map map) {
+        return sqlSessionTemplate.selectList("com.approle.queryForList", map);
     }
 
     public List<AppRole> queryUserRoleForList(Map map){

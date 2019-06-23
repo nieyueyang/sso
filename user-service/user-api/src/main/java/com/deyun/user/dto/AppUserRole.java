@@ -20,7 +20,6 @@ public class AppUserRole {
     private String userAccount;
     private String roleId;
     private String roleCode;
-    private String isDelete;
 
     @Transient
     private String roleName;
@@ -67,14 +66,6 @@ public class AppUserRole {
 
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
-    }
-
-    public String getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(String isDelete) {
-        this.isDelete = isDelete;
     }
 
     public String getRoleName() {

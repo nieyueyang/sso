@@ -20,16 +20,16 @@ public class AppUserDao {
     SqlSessionTemplate sqlSessionTemplate;
 
 
-    public AppUser selectAppUserByAccount(String account){
-        return sqlSessionTemplate.selectOne("com.appuser.selectAppUserByAccount", account);
+    public AppUser queryAppUserByAccount(String account){
+        return sqlSessionTemplate.selectOne("com.appuser.queryAppUserByAccount", account);
     }
 
-    public AppUser selectByAccount(String account){
-        return sqlSessionTemplate.selectOne("com.appuser.selectByAccount", account);
+    public AppUser queryByAccount(String account){
+        return sqlSessionTemplate.selectOne("com.appuser.queryByAccount", account);
     }
 
     public List<AppUser> queryForList(Map map){
-        return sqlSessionTemplate.selectList("com.appuser.selectForPage",map);
+        return sqlSessionTemplate.selectList("com.appuser.queryForPage",map);
     }
 
 }

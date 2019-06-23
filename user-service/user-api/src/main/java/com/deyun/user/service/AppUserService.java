@@ -10,9 +10,9 @@ public interface AppUserService {
 
     List<AppUser> queryForList(Map map);
 
-    AppUser selectAppUserByAccount(String account);
+    AppUser queryAppUserByAccount(String account);
 
-    AppUser selectByAccount(String account);
+    AppUser queryByAccount(String account);
 
     int register(AppUser appUser) throws Exception;
 

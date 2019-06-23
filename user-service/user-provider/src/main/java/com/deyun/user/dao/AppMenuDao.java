@@ -19,7 +19,7 @@ public class AppMenuDao {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    public List<AppMenu> selectForList(AppMenu appMenu){
+    public List<AppMenu> queryForList(AppMenu appMenu){
         return sqlSessionTemplate.selectList("com.appMenu.selectForList",appMenu);
     }
 

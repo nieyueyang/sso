@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public interface AppRoleService {
 
-    List<AppRole> selectForList(Map map);
+    List<AppRole> queryForPage(Map map);
 
     int addAppRole(AppRole appRole) throws Exception;
 

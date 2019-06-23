@@ -20,8 +20,8 @@ public class AppMenuServiceImpl implements AppMenuService {
     AppMenuDao appMenuDao;
 
     @Override
-    public List<AppMenu> selectForList(AppMenu appMenu) {
-        List<AppMenu> list = appMenuDao.selectForList(appMenu);
+    public List<AppMenu> queryForList(AppMenu appMenu) {
+        List<AppMenu> list = appMenuDao.queryForList(appMenu);
         return list;
     }
 

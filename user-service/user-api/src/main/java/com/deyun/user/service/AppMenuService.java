@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface AppMenuService {
 
-    List<AppMenu> selectForList(AppMenu appMenu);
+    List<AppMenu> queryForList(AppMenu appMenu);
 }

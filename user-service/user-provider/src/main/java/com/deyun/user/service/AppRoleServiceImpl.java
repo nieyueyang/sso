@@ -25,8 +25,8 @@ public class AppRoleServiceImpl implements AppRoleService {
     BaseDaoService baseDaoService;
 
     @Override
-    public List<AppRole> selectForList(Map map) {
-        return appRoleDao.selectForList(map);
+    public List<AppRole> queryForPage(Map map) {
+        return appRoleDao.queryForPage(map);
     }
 
     @Override

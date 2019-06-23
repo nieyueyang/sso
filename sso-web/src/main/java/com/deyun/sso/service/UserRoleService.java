@@ -22,11 +22,28 @@ public class UserRoleService {
     @Autowired
     AppUserRoleService appUserRoleService;
 
-    public PageInfo<AppUserRole> queryUserRoleForPage(int pageNum, int pageSize, Map map){
-
+    public PageInfo<AppUserRole> queryUserRoleForPage(int pageNum, int pageSize,int distribution,Map map){
+        List<AppUserRole> list = null;
         PageHelper.startPage(pageNum,pageSize, (String)map.get("orderBy"));
-        List<AppUserRole> list = appUserRoleService.queryUserRoleForList(map);
+        if (distribution == 0){
+            list = appUserRoleService.queryUserRoleForList(map);
+        }else if (distribution ==1){
+            list = appUserRoleService.queryRoleForList(map);
+        }
+
         PageInfo<AppUserRole> PageUserRole = new PageInfo<>(list);
         return PageUserRole;
     }
+
+    public int saveUserRole(List<AppUserRole> list) throws Exception {
+        return appUserRoleService.saveUserRole(list);
+
+    }
+
+    public int deleteUserRole(List<String> list){
+        return appUserRoleService.deleteUserRole(list);
+    }
+
+
+
 }

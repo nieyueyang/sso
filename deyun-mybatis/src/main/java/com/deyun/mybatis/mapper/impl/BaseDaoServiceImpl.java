@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -82,15 +84,16 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
             field.setAccessible(true);
             Object obj = field.get(t);
             if (field.isAnnotationPresent(Id.class)){
+                String id = obj.toString();
                 if (field.isAnnotationPresent(Column.class)){
                     listColumn.add(field.getAnnotation(Column.class).value());
                 }else{
                     listColumn.add(humpToLine(field.getName()));
                 }
-                if (obj == null){
+                if (StringUtils.isEmpty(id)){
+                    //增加多种ID生成策略
                     listValues.add(UUID.randomUUID().toString().replace("-","" ));
                 }else{
-                    //增加多中ID生成策略
                     listValues.add(obj);
                 }
 
@@ -138,15 +141,16 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
                 field.setAccessible(true);
                 Object obj = field.get(t);
                 if (field.isAnnotationPresent(Id.class)){
+                    String id = obj.toString();
                     if (field.isAnnotationPresent(Column.class)){
                         listColumn.add(field.getAnnotation(Column.class).value());
                     }else{
                         listColumn.add(humpToLine(field.getName()));
                     }
-                    if (obj == null){
+                    if (StringUtils.isEmpty(id)){
+                        //增加多种ID生成策略
                         listValues.add(UUID.randomUUID().toString().replace("-","" ));
                     }else{
-                        //增加多中ID生成策略
                         listValues.add(obj);
                     }
 

@@ -21,16 +21,28 @@
 	</sql>
 
 	<select id="queryUserRoleForList" resultMap="appRoleResult">
-		select aur.id,user_id,user_account,role_id,aur.is_delete,ar.role_code,ar.role_name,ar.role_type,ar.isactive
-		from app_role ar left join app_user_role aur on ar.id = aur.role_id and aur.user_id= #{id}
+		select aur.id,user_id,user_account,ar.id role_id,ar.role_code,ar.role_name,ar.role_type,ar.isactive
+		FROM app_role ar join  app_user_role aur on ar.id = aur.role_id
+		and aur.user_id = #{id}
 		<include refid="role_getPage_sql"/>
+	</select>
 
+	<select id="queryRoleForList" resultMap="appRoleResult">
+		select aur.id,user_id,user_account,ar.id role_id,ar.role_code,ar.role_name,ar.role_type,ar.isactive
+		FROM app_role ar left join  app_user_role aur on ar.id = aur.role_id
+		and aur.user_id = #{id} where aur.id is null
+		<if test="roleCode !=null and roleCode != ''">
+			and ar.role_code like concat('%', #{roleCode}, '%')
+		</if>
+		<if test="roleName !=null and roleName != ''">
+			and ar.role_name like concat('%', #{roleName}, '%')
+		</if>
 	</select>
 
 	<sql id="role_getPage_sql">
 		<where>
 			<if test="roleCode !=null and roleCode != ''">
-				and role_code like concat('%', #{roleCode}, '%')
+				and aur.role_code like concat('%', #{roleCode}, '%')
 			</if>
 			<if test="roleName !=null and roleName != ''">
 				and role_name like concat('%', #{roleName}, '%')

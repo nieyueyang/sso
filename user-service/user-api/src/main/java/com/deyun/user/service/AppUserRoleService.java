@@ -12,7 +12,11 @@ import java.util.Map;
  */
 public interface AppUserRoleService {
 
-    public List<AppUserRole> queryUserRoleForList(Map map);
+    List<AppUserRole> queryUserRoleForList(Map map);
 
-    public int BatchSave(List<AppUserRole> list) throws Exception;
+    List<AppUserRole> queryRoleForList(Map map);
+
+    int saveUserRole(List<AppUserRole> list) throws Exception;
+
+    int deleteUserRole(List<String> list);
 }

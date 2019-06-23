@@ -65,13 +65,13 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser selectAppUserByAccount(String account){
-        return appUserDao.selectAppUserByAccount(account);
+    public AppUser queryAppUserByAccount(String account){
+        return appUserDao.queryAppUserByAccount(account);
     }
 
     @Override
-    public AppUser selectByAccount(String account) {
-       return appUserDao.selectByAccount(account);
+    public AppUser queryByAccount(String account) {
+       return appUserDao.queryByAccount(account);
     }
 
     @Override

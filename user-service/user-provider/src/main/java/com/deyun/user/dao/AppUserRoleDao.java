@@ -1,5 +1,6 @@
 package com.deyun.user.dao;
 
+import com.deyun.user.dto.AppRole;
 import com.deyun.user.dto.AppUserRole;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class AppUserRoleDao {
 
     public List<AppUserRole> queryUserRoleForList(Map map) {
         return sqlSessionTemplate.selectList("com.appUserRole.queryUserRoleForList",map);
+    }
+
+    public List<AppUserRole> queryRoleForList(Map map) {
+        return sqlSessionTemplate.selectList("com.appUserRole.queryRoleForList",map);
     }
 
 }

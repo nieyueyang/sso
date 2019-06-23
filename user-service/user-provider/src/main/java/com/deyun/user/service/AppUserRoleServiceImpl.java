@@ -5,6 +5,9 @@ import com.deyun.user.dao.AppUserRoleDao;
 import com.deyun.user.dto.AppUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +31,19 @@ public class AppUserRoleServiceImpl implements AppUserRoleService {
     }
 
     @Override
-    public int BatchSave(List<AppUserRole> list) throws Exception {
+    public List<AppUserRole> queryRoleForList(Map map) {
+        return appUserRoleDao.queryRoleForList(map);
+    }
+
+    @Override
+    public int saveUserRole(List<AppUserRole> list) throws Exception {
         return baseDaoService.insertBatch(list);
     }
+
+    @Override
+    public int deleteUserRole(List <String> list) {
+        return baseDaoService.deleteBatch("app_user_role",list);
+    }
+
 
 }

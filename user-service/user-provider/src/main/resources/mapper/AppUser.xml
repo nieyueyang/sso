@@ -31,19 +31,19 @@
   	create_account,create_name,create_date,modify_account,modify_date
   </sql>
 
-	<select id="selectAppUserByAccount" resultMap="appUserExtendResult">
+	<select id="queryAppUserByAccount" resultMap="appUserExtendResult">
 		select id, account,name,password,salt,parent_id, sex, phone,email,company_id,source,
   		create_account,create_name,create_date,modify_account,modify_date
 		from app_user where account = #{account}
 	</select>
 
-	<select id="selectByAccount" resultMap="appUserResult">
+	<select id="queryByAccount" resultMap="appUserResult">
 		select id, account,name,salt,parent_id, sex, phone,email,company_id,source,
   		create_account,create_name,create_date,modify_account,modify_date
 		from app_user where account = #{account}
 	</select>
 
-  <select id="selectForPage" resultMap="appUserResult">
+  <select id="queryForPage" resultMap="appUserResult">
      SELECT <include refid="selectAllItems"/>
       FROM app_user
 

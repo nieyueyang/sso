@@ -19,8 +19,8 @@ public class MenuService {
     @Autowired
     AppMenuService appMenuService;
 
-    public List<AppMenu> selectForList(AppMenu appMenu){
-        return appMenuService.selectForList(appMenu);
+    public List<AppMenu> queryForList(AppMenu appMenu){
+        return appMenuService.queryForList(appMenu);
     }
 
 

@@ -35,10 +35,10 @@ public class UserService {
         return PageUser;
     }
 
-    public AppUser selectByAccount(String account){
+    public AppUser queryByAccount(String account){
         AppUser appUser = (AppUser) redisTemplate.opsForValue().get("user");
         if (appUser == null){
-            appUser = appUserService.selectByAccount(account);
+            appUser = appUserService.queryByAccount(account);
             redisTemplate.opsForValue().set("user", appUser,30, TimeUnit.MINUTES);
         }
         return appUser;

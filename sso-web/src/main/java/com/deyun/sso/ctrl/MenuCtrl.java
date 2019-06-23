@@ -29,15 +29,15 @@ public class MenuCtrl {
     MenuService menuService;
 
     @RequestMapping(value = "/{menuId}/{parentId}" ,method = RequestMethod.GET)
-    public Result selectForList(@PathVariable("menuId") String menuId,
+    public Result queryForList(@PathVariable("menuId") String menuId,
                                 @PathVariable("parentId") String parentId){
         AppMenu appMenu = new AppMenu();
         //appMenu.setMenuId(menuId);
         appMenu.setParentId("-1");
-        List<AppMenu> list = menuService.selectForList(appMenu);
+        List<AppMenu> list = menuService.queryForList(appMenu);
         AppMenu appMenu1 = list.get(0);
         appMenu.setParentId(appMenu1.getId());
-        List<AppMenu> list2 = menuService.selectForList(appMenu);
+        List<AppMenu> list2 = menuService.queryForList(appMenu);
         appMenu1.setChildren(list2);
 
         List list3 = new ArrayList();

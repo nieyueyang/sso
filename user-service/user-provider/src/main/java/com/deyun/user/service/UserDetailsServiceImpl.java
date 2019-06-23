@@ -55,7 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         // --------------------认证账号
-        AppUser appUser = appUserService.selectAppUserByAccount(username);
+        AppUser appUser = appUserService.queryAppUserByAccount(username);
         // --------------------判断用户是否存在
         if(appUser == null) {
             throw new UserException(ErrorUserMsgEnum.USERNAME_NOT_FOUND);

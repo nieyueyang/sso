@@ -21,10 +21,10 @@ public class RoleService {
     @Autowired
     private AppRoleService appRoleService;
 
-    public PageInfo<AppRole> selectForPage(int pageNum,int pageSize,Map map){
+    public PageInfo<AppRole> queryForPage(int pageNum,int pageSize,Map map){
 
         PageHelper.startPage(pageNum,pageSize, (String)map.get("orderBy"));
-        List <AppRole> list = appRoleService.selectForList(map);
+        List <AppRole> list = appRoleService.queryForPage(map);
         PageInfo<AppRole> PageUser = new PageInfo<>(list);
         return PageUser;
     }
