@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="com.appsystemFunc">
+
+	<resultMap id="appSystemFuncResult" type="com.deyun.sso.pojo.AppSystemFunc">
+		<result column="id" property="id"/>
+		<result column="func_code" property="funcCode"/>
+		<result column="func_name" property="funcName"/>
+		<result column="system_code" property="systemCode"/>
+		<result column="type" property="type"/>
+		<result column="url" property="url"/>
+		<result column="status" property="status"/>
+		<result column="parent_code" property="parentCode"/>
+		<result column="is_leaf" property="isLeaf"/>
+		<result column="open_type" property="openType"/>
+		<result column="sort" property="sort"/>
+		<result column="is_deleted" property="isDeleted"/>
+		<result column="create_account" property="createAccount"/>
+		<result column="create_name" property="createName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="modify_account" property="modifyAccount"/>
+		<result column="modify_date" property="modifyDate"/>
+	</resultMap>
+
+	<sql id="selectAllItems">
+		id, func_code,func_name,system_code,type,url,status,parent_code,is_leaf,open_type,sort,is_deleted,create_account,create_name,
+		create_date,modify_account,modify_date
+	</sql>
+
+	<select id="queryForList" resultMap="appSystemFuncResult">
+		select <include refid="selectAllItems"/>
+		from app_system_func
+		<include refid="where_sql"/>
+	</select>
+
+	<sql id="where_sql">
+		<where>
+			<if test="id !=null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="funcCode !=null and funcCode != ''">
+				and func_code  = #{funcCode}
+			</if>
+			<if test="funcName !=null and funcName != ''">
+				and func_name  = like concat('%', #{funcName}, '%')
+			</if>
+			<if test="systemCode !=null and systemCode != ''">
+				and system_code like concat('%', #{systemCode}, '%')
+			</if>
+
+		</where>
+	</sql>
+
+  
+
+
+
+  
+
+
+	
+	
+
+
+
+      
+</mapper>

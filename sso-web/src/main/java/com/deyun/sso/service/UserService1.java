@@ -2,7 +2,6 @@ package com.deyun.sso.service;
 
 import com.deyun.common.domain.QueryParameter;
 import com.deyun.mybatis.mapper.BaseDaoService;
-import com.deyun.sso.pojo.BaseDept;
 import com.deyun.sso.pojo.User;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -74,12 +73,6 @@ public class UserService1 {
     public void transientTest() throws Exception {
         long beginTime = System.currentTimeMillis();
 
-        BaseDept baseDept = new BaseDept();
-        baseDept.setId(UUID.randomUUID().toString().replace("-","" ));
-        baseDept.setDeptCode("100001");
-        baseDept.setDeptName("部门1");
-        baseDept.setParentDeptCode("0");
-        baseDept.setParentDeptName("集团");
 
         User users = new User();
         users.setId("cccccc");
@@ -98,7 +91,6 @@ public class UserService1 {
         users.setCreateTime2(new Date());
         users.setCreateTime3(time1);
 
-        baseDaoService.insert(baseDept);
         baseDaoService.insert(users);
         System.out.println(System.currentTimeMillis() - beginTime );
 

@@ -2,8 +2,8 @@ package com.deyun.sso.ctrl;
 
 import com.deyun.common.annotation.ParaNotNull;
 import com.deyun.common.dto.Result;
-import com.deyun.sso.service.UserService;
-import com.deyun.user.dto.AppUser;
+import com.deyun.sso.pojo.AppSystem;
+import com.deyun.sso.service.AppSystemService;
 import com.deyun.user.dto.AuthUser;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -18,78 +18,68 @@ import java.util.Map;
 
 /**
  * @Author: nieyy
- * @Date: 2019/4/27 19:49
+ * @Date: 2019/6/24 22:35
  * @Version 1.0
  * @Description:
  */
-
 @RestController
-@RequestMapping("/user")
-public class UserCtrl {
+@RequestMapping("/appsystem")
+public class AppSystemCtrl {
 
     @Autowired
-    private UserService userService;
+    private AppSystemService appSystemService;
 
-    @ApiOperation(value="分页查询", notes="分页查询")
+    @ApiOperation(value="注册系统分页查询", notes="注册系统分页查询")
     @ParaNotNull(ParaName = {"pageNum","pageSize"})
     @PostMapping("/queryForPage")
     public Result queryForPage(@RequestBody Map map){
 
         int pageNum = (int)map.get("pageNum");
         int pageSize = (int)map.get("pageSize");
-        PageInfo <AppUser> list = userService.queryForPage(pageNum,pageSize,map);
+        PageInfo <AppSystem> list = appSystemService.queryFroPage(pageNum,pageSize,map);
         return new Result(list);
     }
 
-    /**
-     * 单条查询
-     * @return
-     */
-    @ApiOperation(value="获取用户列表", notes="获取用户列表")
-    @ParaNotNull(ParaName = {"account"})
-    @GetMapping(value = "/{account}")
-    public AppUser queryByAccount(@PathVariable("account") String account){
-        return userService.queryByAccount(account);
-    }
-
-    @ApiOperation(value="添加用户", notes="添加用户")
-    @ParaNotNull(ParaName = {"account","name"})
+    @ApiOperation(value="注册系统", notes="注册系统")
+    @ParaNotNull(ParaName = {"systemCode","systemName","domain"})
     @PostMapping
-    public Result addAppUser(@RequestBody AppUser appUser) throws Exception {
+    public Result addAppSystem(@RequestBody AppSystem appSystem) throws Exception {
         String account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         String name = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
-        appUser.setCreateAccount(account);
-        appUser.setCreateName(name);
-        appUser.setCreateDate(Instant.now());
-        int i = userService.addAppUser(appUser);
+        appSystem.setCreateAccount(account);
+        appSystem.setCreateName(name);
+        appSystem.setCreateDate(Instant.now());
+        int i = appSystemService.addAppSystem(appSystem);
         Result result = new Result(i);
         return result;
     }
 
-    @ApiOperation(value="更新用户信息", notes="更新用户信息")
+    @ApiOperation(value="更新系统信息", notes="更新系统信息")
     @ParaNotNull(ParaName = {"id"})
     @RequestMapping(value = "/{id}" ,method = RequestMethod.PUT)
-    public Result updateAppUser(@PathVariable("id") String id,@RequestBody AppUser appUser) throws Exception {
+    public Result updateAppSystem(@PathVariable("id") String id, @RequestBody AppSystem appSystem ) throws Exception {
         String account = ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
         Map map = new HashMap();
         map.put("id", id);
-        appUser.setId(id);
-        appUser.setModifyAccount(account);
-        appUser.setModifyDate(Instant.now());
-        int i = userService.updateAppUser(appUser,map);
+        appSystem.setId(id);
+        appSystem.setModifyAccount(account);
+        appSystem.setModifyDate(Instant.now());
+        int i = appSystemService.updateAppSystem(appSystem,map);
         Result result = new Result(i);
         return result;
     }
 
-    @ApiOperation(value="删除用户信息", notes="删除用户信息")
+    @ApiOperation(value="删除角色信息", notes="删除角色信息")
+    @ParaNotNull(ParaName = {"id"})
     @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
-    public Result deleteAppUser(@PathVariable("id") String id){
+    public Result deleteAppSystem(@PathVariable("id") String id){
         String[] strs = id.split(",");
         List<String> list= Arrays.asList(strs);
-        int i = userService.deleteAppRole(list);
+        int i = appSystemService.deleteAppSystem(list);
         Result result = new Result(i);
         return result;
     }
+
 
 
 }

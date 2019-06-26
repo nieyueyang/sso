@@ -84,7 +84,12 @@ public class BaseDaoServiceImpl<T> implements BaseDaoService<T> {
             field.setAccessible(true);
             Object obj = field.get(t);
             if (field.isAnnotationPresent(Id.class)){
-                String id = obj.toString();
+                String id = "";
+                if (obj == null){
+                    id = "";
+                }else{
+                    id = String.valueOf(obj);
+                }
                 if (field.isAnnotationPresent(Column.class)){
                     listColumn.add(field.getAnnotation(Column.class).value());
                 }else{
