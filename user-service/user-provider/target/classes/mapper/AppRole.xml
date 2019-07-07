@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="com.approle">
+
+	<resultMap id="appRoleResult" type="com.deyun.user.dto.AppRole">
+		<result column="id" property="id"/>
+		<result column="role_code" property="roleCode"/>
+		<result column="role_name" property="roleName"/>
+		<result column="role_type" property="roleType"/>
+		<result column="isactive" property="isactive"/>
+		<result column="sys_id" property="sysId"/>
+		<result column="tenant_id" property="tenantId"/>
+		<result column="remark" property="remark"/>
+		<result column="create_account" property="createAccount"/>
+		<result column="create_name" property="createName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="modify_account" property="modifyAccount"/>
+		<result column="modify_date" property="modifyDate"/>
+	</resultMap>
+
+	<sql id="selectAllItems">
+		id, role_code,role_name,role_type,isactive,sys_id,tenant_id,remark,create_account,create_name,
+		create_date,modify_account,modify_date
+	</sql>
+
+	<select id="queryForList" resultMap="appRoleResult">
+		select <include refid="selectAllItems"/>
+		from app_role
+		<include refid="role_getPage_sql"/>
+	</select>
+
+	<sql id="role_getPage_sql">
+		<where>
+			<if test="id !=null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="roleCode !=null and roleCode != ''">
+				and role_code like concat('%', #{roleCode}, '%')
+			</if>
+			<if test="roleName !=null and roleName != ''">
+				and role_name like concat('%', #{roleName}, '%')
+			</if>
+			<if test="roleType !=null and roleType != ''">
+				and role_type = #{roleType}
+			</if>
+			<if test="isactive !=null and isactive != ''">
+				and isactive = #{isactive}
+			</if>
+			<if test="sysId !=null and sysId != ''">
+				and sys_id = #{sysId}
+			</if>
+			<if test="tenantId !=null and tenantId != ''">
+				and tenant_id = #{tenantId}
+			</if>
+			<!--<if test="type and type != ''">-->
+				<!--and  bitor(type,#{type})=type-->
+			<!--</if>-->
+
+		</where>
+	</sql>
+
+  
+
+
+
+  
+
+
+	
+	
+
+
+
+      
+</mapper>

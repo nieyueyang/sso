@@ -40,6 +40,14 @@ public class AppSystemCtrl {
         return new Result(list);
     }
 
+    @ApiOperation(value="注册系统全部数据", notes="注册系统全部数据")
+    @GetMapping
+    public Result queryForList(Map map){
+
+        List <AppSystem> list = appSystemService.queryFroList(map);
+        return new Result(list);
+    }
+
     @ApiOperation(value="注册系统", notes="注册系统")
     @ParaNotNull(ParaName = {"systemCode","systemName","domain"})
     @PostMapping

@@ -20,8 +20,12 @@ public class AppSystemFuncDao {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    public List<AppSystemFunc> queryForPage(Map map) {
-        return sqlSessionTemplate.selectList("com.appsystemFunc.queryForList", map);
+    public List<AppSystemFunc> queryForPage(AppSystemFunc appSystemFunc) {
+        return sqlSessionTemplate.selectList("com.appsystemFunc.queryForList", appSystemFunc);
+    }
+
+    public List<AppSystemFunc> queryForFuncGroup(String funcGroupId){
+        return sqlSessionTemplate.selectList("com.appsystemFunc.queryForFuncGroup", funcGroupId);
     }
 
 

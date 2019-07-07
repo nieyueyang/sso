@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="com.appsystem">
+
+	<resultMap id="appSystemResult" type="com.deyun.sso.pojo.AppSystem">
+		<result column="id" property="id"/>
+		<result column="system_code" property="systemCode"/>
+		<result column="system_name" property="systemName"/>
+		<result column="type" property="type"/>
+		<result column="domain" property="domain"/>
+		<result column="status" property="status"/>
+		<result column="sort" property="sort"/>
+		<result column="is_deleted" property="isDeleted"/>
+		<result column="create_account" property="createAccount"/>
+		<result column="create_name" property="createName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="modify_account" property="modifyAccount"/>
+		<result column="modify_date" property="modifyDate"/>
+	</resultMap>
+
+	<sql id="selectAllItems">
+		id, system_code,system_name,type,domain,status,sort,is_deleted,create_account,create_name,
+		create_date,modify_account,modify_date
+	</sql>
+
+	<select id="queryForList" resultMap="appSystemResult">
+		select <include refid="selectAllItems"/>
+		from app_system
+		<include refid="where_sql"/>
+	</select>
+
+	<sql id="where_sql">
+		<where>
+			<if test="id !=null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="systemCode !=null and systemCode != ''">
+				and system_code  = #{systemCode}
+			</if>
+			<if test="systemName !=null and systemName != ''">
+				and system_name like concat('%', #{systemName}, '%')
+			</if>
+			<if test="domain !=null and domain != ''">
+				and domain like concat('%', #{domain}, '%')
+			</if>
+
+		</where>
+	</sql>
+
+  
+
+
+
+  
+
+
+	
+	
+
+
+
+      
+</mapper>

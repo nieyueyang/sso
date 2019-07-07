@@ -47,4 +47,12 @@ public class MenuCtrl {
     }
 
 
+    @RequestMapping(value = "" ,method = RequestMethod.GET)
+    public Result queryMenuAll(){
+
+        List<AppMenu> list = menuService.queryMenuAll();
+        return new Result(list);
+    }
+
+
 }

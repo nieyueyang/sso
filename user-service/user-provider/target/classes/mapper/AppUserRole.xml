@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="com.appUserRole">
+
+	<resultMap id="appRoleResult" type="com.deyun.user.dto.AppUserRole">
+		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_account" property="userAccount"/>
+		<result column="role_id" property="roleId"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="role_code" property="roleCode"/>
+		<result column="role_name" property="roleName"/>
+		<result column="role_type" property="roleType"/>
+		<result column="isactive" property="isactive"/>
+	</resultMap>
+
+	<sql id="selectAllItems">
+		id,user_id,user_account,role_id,is_delete,role_code,role_name,
+		role_type
+	</sql>
+
+	<select id="queryUserRoleForList" resultMap="appRoleResult">
+		select aur.id,user_id,user_account,ar.id role_id,ar.role_code,ar.role_name,ar.role_type,ar.isactive
+		FROM app_role ar join  app_user_role aur on ar.id = aur.role_id
+		and aur.user_id = #{id}
+		<include refid="role_getPage_sql"/>
+	</select>
+
+	<select id="queryRoleForList" resultMap="appRoleResult">
+		select aur.id,user_id,user_account,ar.id role_id,ar.role_code,ar.role_name,ar.role_type,ar.isactive
+		FROM app_role ar left join  app_user_role aur on ar.id = aur.role_id
+		and aur.user_id = #{id} where aur.id is null
+		<if test="roleCode !=null and roleCode != ''">
+			and ar.role_code like concat('%', #{roleCode}, '%')
+		</if>
+		<if test="roleName !=null and roleName != ''">
+			and ar.role_name like concat('%', #{roleName}, '%')
+		</if>
+	</select>
+
+	<sql id="role_getPage_sql">
+		<where>
+			<if test="roleCode !=null and roleCode != ''">
+				and aur.role_code like concat('%', #{roleCode}, '%')
+			</if>
+			<if test="roleName !=null and roleName != ''">
+				and role_name like concat('%', #{roleName}, '%')
+			</if>
+			<if test="roleType !=null and roleType != ''">
+				and role_type = #{roleType}
+			</if>
+			<if test="isactive !=null and isactive != ''">
+				and isactive = #{isactive}
+			</if>
+			<if test="sysId !=null and sysId != ''">
+				and sys_id = #{sysId}
+			</if>
+			<if test="tenantId !=null and tenantId != ''">
+				and tenant_id = #{tenantId}
+			</if>
+			<!--<if test="type and type != ''">-->
+				<!--and  bitor(type,#{type})=type-->
+			<!--</if>-->
+
+		</where>
+	</sql>
+
+  
+
+
+
+  
+
+
+	
+	
+
+
+
+      
+</mapper>

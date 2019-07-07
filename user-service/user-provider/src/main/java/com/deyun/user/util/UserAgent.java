@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @Version 1.0
  * @Description:
  */
-public class UserUtil {
+public class UserAgent {
 
     public static AuthUser getAuthUser() {
         return (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

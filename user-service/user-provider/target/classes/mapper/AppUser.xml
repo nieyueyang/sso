@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="com.appuser">
+
+	<resultMap id="appUserResult" type="com.deyun.user.dto.AppUser">
+		<result column="id" property="id"/>
+		<result column="account" property="account"/>
+		<result column="name" property="name"/>
+		<result column="salt" property="salt"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="sex" property="sex"/>
+		<result column="birthday" property="birthday"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="company_id" property="companyId"/>
+		<result column="source" property="source"/>
+		<result column="create_account" property="createAccount"/>
+		<result column="create_name" property="createName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="modify_account" property="modifyAccount"/>
+		<result column="modify_date" property="modifyDate"/>
+	</resultMap>
+
+   <resultMap id="appUserExtendResult" type="com.deyun.user.dto.AppUser" extends="appUserResult">
+	   <result column="password" property="password"/>
+  </resultMap>
+    
+  <sql id="selectAllItems">
+  	id, account,name,salt,parent_id, sex,birthday, phone,email,company_id,source,
+  	create_account,create_name,create_date,modify_account,modify_date
+  </sql>
+
+	<select id="queryAppUserByAccount" resultMap="appUserExtendResult">
+		select id, account,name,password,salt,parent_id, sex, phone,email,company_id,source,
+  		create_account,create_name,create_date,modify_account,modify_date
+		from app_user where account = #{account}
+	</select>
+
+	<select id="queryByAccount" resultMap="appUserResult">
+		select id, account,name,salt,parent_id, sex, phone,email,company_id,source,
+  		create_account,create_name,create_date,modify_account,modify_date
+		from app_user where account = #{account}
+	</select>
+
+  <select id="queryForPage" resultMap="appUserResult">
+     SELECT <include refid="selectAllItems"/>
+      FROM app_user
+
+      <include refid="user_getPage_sql"/>
+      <if test="orderBy!=null and orderBy != ''">
+	  	order by #{orderBy}
+	  </if>
+  </select>
+
+	<sql id="user_getPage_sql">
+		<where>
+			<if test="id !=null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="account !=null and account != ''">
+				and account like concat('%', #{account}, '%')
+			</if>
+			<if test="name !=null and name != ''">
+				and name like concat('%', #{name}, '%')
+			</if>
+			<!--<if test="type and type != ''">-->
+				<!--and  bitor(type,#{type})=type-->
+			<!--</if>-->
+
+		</where>
+	</sql>
+
+  
+
+
+
+</mapper>

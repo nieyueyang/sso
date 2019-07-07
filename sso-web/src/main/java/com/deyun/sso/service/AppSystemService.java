@@ -6,9 +6,11 @@ import com.deyun.sso.pojo.AppSystem;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: nieyy
@@ -23,12 +25,24 @@ public class AppSystemService {
     AppSystemDao appSystemDao;
     @Autowired
     BaseDaoService baseDaoService;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     public PageInfo<AppSystem> queryFroPage(int pageNum,int pageSize,Map map){
         PageHelper.startPage(pageNum,pageSize, (String)map.get("orderBy"));
         List <AppSystem> list = appSystemDao.queryForPage(map);
         PageInfo<AppSystem> PageUser = new PageInfo<>(list);
         return PageUser;
+    }
+
+    public List<AppSystem> queryFroList(Map map){
+        String rediskey = AppSystem.class.getName();
+        List <AppSystem> list = (List <AppSystem>) redisTemplate.opsForValue().get(rediskey);
+        if (list == null ){
+            list = appSystemDao.queryForPage(map);
+            redisTemplate.opsForValue().set(rediskey,list,30,TimeUnit.MINUTES);
+        }
+        return list;
     }
 
     public int addAppSystem(AppSystem appSystem) throws Exception {

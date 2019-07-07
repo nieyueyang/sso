@@ -21,10 +21,9 @@ public class AppSystemFunc {
     private String type;
     private String url;
     private String status;
-    private String parentCode;
-    private String isLeaf;
+    private int isLeaf;
     private String openType;
-    private String isDeleted;
+    private int isDeleted;
     private String sort;
     private String createAccount;
     private String createName;
@@ -88,19 +87,11 @@ public class AppSystemFunc {
         this.status = status;
     }
 
-    public String getParentCode() {
-        return parentCode;
-    }
-
-    public void setParentCode(String parentCode) {
-        this.parentCode = parentCode;
-    }
-
-    public String getIsLeaf() {
+    public int getIsLeaf() {
         return isLeaf;
     }
 
-    public void setIsLeaf(String isLeaf) {
+    public void setIsLeaf(int isLeaf) {
         this.isLeaf = isLeaf;
     }
 
@@ -112,11 +103,11 @@ public class AppSystemFunc {
         this.openType = openType;
     }
 
-    public String getIsDeleted() {
+    public int getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(String isDeleted) {
+    public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
 
